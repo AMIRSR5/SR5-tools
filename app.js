@@ -85,22 +85,42 @@ function nav(){const h=location.hash||"#/";const n=$("#nav");
 async function login(){if(!sb)return toast("ابتدا Supabase را در index.html تنظیم کنید");await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}})}
 async function loadProfile(){if(!sb)return;const{data:{session}}=await sb.auth.getSession();user=session?.user||null;profile=null;if(user){const{data}=await sb.from("profiles").select("*").eq("id",user.id).single();profile=data}nav()}
 
+const CD={"محاسبات":["🧮","سن، درصد، تخفیف و محاسبات روزمره"],"سلامت":["💪","BMI، کالری و وزن ایده‌آل"],"مالی":["💰","وام، سود مرکب، سود و زیان"],"املاک":["🏠","تبدیل رهن و اجاره و کمیسیون"],"هوش مصنوعی":["🤖","مقاله، کپشن، ریلز، رزومه و بیشتر"],"ساخت":["🛠️","QR، فاکتور، رزومه PDF، کارت ویزیت"],"ابزار":["⚙️","تبدیل واحد و دما، شمارش کلمات، رمزساز"],"خودرو":["🚗","مصرف سوخت و افت قیمت"]};
 function renderGrid(){const list=T.filter(t=>(cat=="همه"||t.c==cat)&&(t.n+t.d).includes(q));
  $("#cats").innerHTML=CATS.map(c=>`<button class="btn ${c==cat?"on":""}" data-c="${c}">${c}</button>`).join("");
  $("#grid").innerHTML=list.map((t,i)=>`<div class="tc sr" style="--d:${Math.min(i%8,7)}" data-id="${t.id}">${t.ai?'<span class="tag">AI</span>':""}<div class="ic">${t.i}</div><h3>${t.n}</h3><p>${t.d}</p></div>`).join("")||'<p style="grid-column:1/-1;text-align:center;color:var(--mu)">چیزی پیدا نشد</p>';
  document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{cat=b.dataset.c;renderGrid()});
  document.querySelectorAll(".tc").forEach(c=>c.onclick=()=>location.hash="#/t/"+c.dataset.id);observe()}
+function scrolly(){const sc=$("#sc"),v=$("#sv");if(!sc)return;let target=0,cur=0,last=-1;const ly=[...sc.querySelectorAll(".ly")];
+ const upd=()=>{if(!sc.isConnected)return removeEventListener("scroll",upd);const h=sc.offsetHeight-innerHeight;target=Math.min(1,Math.max(0,-sc.getBoundingClientRect().top/h))};
+ addEventListener("scroll",upd,{passive:true});addEventListener("resize",upd);upd();
+ addEventListener("touchstart",()=>{v.play().then(()=>v.pause()).catch(()=>{})},{once:true,passive:true});
+ (function loop(){if(!sc.isConnected)return;cur+=(target-cur)*.14;if(Math.abs(target-cur)<.0005)cur=target;
+  if(v.duration){const t=Math.min(cur*v.duration,v.duration-.05);if(Math.abs(t-last)>.02){try{v.currentTime=t}catch(_){}last=t}}
+  $("#pb").style.transform=`scaleX(${cur})`;
+  for(const l of ly){const a=+l.dataset.a,b=+l.dataset.b,k=(cur-a)/(b-a);let o=1;if(!l.dataset.f)o=Math.min(o,k/.22);if(!l.dataset.l)o=Math.min(o,(1-k)/.22);o=Math.max(0,Math.min(1,o));l.style.opacity=o;l.style.transform=`translate3d(0,${(1-o)*(k<.5?36:-36)}px,0) scale(${.96+.04*o})`;l.style.pointerEvents=o>.6?"auto":"none"}
+  requestAnimationFrame(loop)})()}
 function home(){document.title="SR5 Tools | ۳۰ ابزار آنلاین فارسی";
- $("#view").innerHTML=`<section class="hero rv" data-at=".6"><div class="orb"><img src="logo.png" alt="SR5 Tools"></div><span class="pill">⚡ ابزارهای هوشمند فارسی</span><h1>همه ابزارهای مهمت،<br><span>در یک پلتفرم حرفه‌ای</span></h1><p>ماشین‌حساب‌های مالی و سلامت، ابزارهای ساخت و تولید محتوا با هوش مصنوعی؛ سریع، امن و بدون نصب. با ورود اولیه ۳ اعتبار هدیه بگیر.</p><div class="cta"><button class="btn pri lg" id="c1">شروع رایگان</button><button class="btn lg" id="c2">مشاهده ابزارها ↓</button></div></section>
- <section class="stats rv" data-at=".75"><div class="st"><b data-n="30">۰</b><small>ابزار واقعی</small></div><div class="st"><b data-n="10">۰</b><small>ابزار هوش مصنوعی</small></div><div class="st"><b data-n="3">۰</b><small>اعتبار رایگان</small></div><div class="st"><b data-n="3">۰</b><small>موتور AI با پشتیبان</small></div></section>
- <h2 class="h2 rv" data-at=".85" id="tools">ابزارها</h2><p class="sub rv" data-at=".85">دنبال چی می‌گردی؟</p>
- <input class="srch rv" data-at=".88" id="q" placeholder="جستجوی ابزار…" value="${esc(q)}"><div class="cats rv" data-at=".9" id="cats"></div><div class="grid" id="grid"></div>
+ const cc=c=>T.filter(t=>t.c==c).length;
+ $("#view").innerHTML=`<section id="sc" class="sc"><div class="stage"><video id="sv" src="intro.mp4" muted playsinline webkit-playsinline preload="auto" poster="logo.png"></video><div class="shade"></div>
+ <div class="ly" data-a="0" data-b=".26" data-f="1"><div class="orb"><img src="logo.png" alt="SR5 Tools"></div><h1>SR5 <span>Tools</span></h1><p>پلتفرم ابزارهای هوشمند فارسی</p><div class="hint">برای شروع پایین بکش<b>↓</b></div></div>
+ <div class="ly" data-a=".26" data-b=".52"><span class="pill">۱ / ۳</span><h2>۳۰ ابزار واقعی</h2><p>ماشین‌حساب مالی و سلامت، فاکتور، رزومه PDF، QR و کارت ویزیت؛ همه سریع و داخل مرورگر.</p></div>
+ <div class="ly" data-a=".52" data-b=".78"><span class="pill">۲ / ۳</span><h2>هوش مصنوعی فارسی</h2><p>مقاله، کپشن اینستاگرام، سناریوی ریلز و رزومه؛ با پشتیبان‌گیری خودکار بین چند موتور AI.</p></div>
+ <div class="ly" data-a=".78" data-b="1" data-l="1"><span class="pill">۳ / ۳</span><h2>۳ اعتبار رایگان</h2><p>با ورود Google شروع کن. ابزارهای غیر AI همیشه رایگانند.</p><div class="cta"><button class="btn pri lg" id="c1">ورود و شروع</button><button class="btn lg" id="c2">مشاهده ابزارها ↓</button></div></div>
+ <div class="pbar"><i id="pb"></i></div></div></section>
+ <section class="stats"><div class="st sr"><b data-n="30">۰</b><small>ابزار واقعی</small></div><div class="st sr" style="--d:1"><b data-n="10">۰</b><small>ابزار هوش مصنوعی</small></div><div class="st sr" style="--d:2"><b data-n="8">۰</b><small>دسته‌بندی</small></div><div class="st sr" style="--d:3"><b data-n="3">۰</b><small>اعتبار رایگان</small></div></section>
+ <h2 class="h2 sr" id="catsec">دسته‌بندی ابزارها</h2><p class="sub sr">یک دسته را انتخاب کن تا ابزارهایش را ببینی</p>
+ <div class="cgrid">${Object.entries(CD).map(([c,[i,d]],k)=>`<div class="cc sr" style="--d:${k%4}" data-cc="${c}"><span class="ci">${i}</span><h3>${c}</h3><p>${d}</p><small>${fa(cc(c),0)} ابزار ←</small></div>`).join("")}</div>
+ <h2 class="h2 sr" id="tools">همه ابزارها</h2><p class="sub sr">دنبال چی می‌گردی؟</p>
+ <input class="srch sr" id="q" placeholder="جستجوی ابزار…" value="${esc(q)}"><div class="cats" id="cats"></div><div class="grid" id="grid"></div>
  <h2 class="h2 sr">چطور کار می‌کند؟</h2><div class="steps"><div class="sp sr"><em>۱</em><h3>ورود با Google</h3><p>با یک کلیک وارد شو و ۳ اعتبار رایگان دریافت کن.</p></div><div class="sp sr" style="--d:1"><em>۲</em><h3>انتخاب ابزار</h3><p>از بین ۳۰ ابزار محاسباتی، ساخت و هوش مصنوعی انتخاب کن.</p></div><div class="sp sr" style="--d:2"><em>۳</em><h3>نتیجه آماده</h3><p>خروجی را کپی کن، چاپ کن یا به‌صورت PDF ذخیره کن.</p></div></div>
  <div class="band sr"><h2>آماده‌ای شروع کنی؟</h2><p>ابزارهای غیر AI همیشه رایگان و بدون ورود قابل استفاده‌اند.</p><button class="btn pri lg" id="c3">ورود و دریافت ۳ اعتبار</button></div>`;
  $("#q").oninput=e=>{q=e.target.value;renderGrid()};
- const go=()=>user?document.getElementById("tools").scrollIntoView({behavior:"smooth"}):login();$("#c1").onclick=go;$("#c3").onclick=go;$("#c2").onclick=()=>document.getElementById("tools").scrollIntoView({behavior:"smooth"});
+ const to=id=>document.getElementById(id).scrollIntoView({behavior:"smooth"});
+ $("#c1").onclick=()=>user?to("catsec"):login();$("#c3").onclick=()=>user?to("tools"):login();$("#c2").onclick=()=>to("catsec");
+ document.querySelectorAll("[data-cc]").forEach(e=>e.onclick=()=>{cat=e.dataset.cc;renderGrid();to("tools")});
  if(matchMedia("(hover:hover) and (min-width:769px)").matches)$("#grid").onmousemove=e=>{const c=e.target.closest(".tc");if(c){const r=c.getBoundingClientRect();c.style.setProperty("--mx",e.clientX-r.left+"px");c.style.setProperty("--my",e.clientY-r.top+"px")}};
- renderGrid();reveal(done?1:0)}
+ renderGrid();scrolly();observe()}
 function field(f){const id="f_"+f.k;let el;if(f.t=="select")el=`<select id="${id}">${f.o.map(o=>Array.isArray(o)?`<option value="${o[0]}">${o[1]}</option>`:`<option>${o}</option>`).join("")}</select>`;
  else if(f.t=="textarea")el=`<textarea id="${id}">${esc(f.d??"")}</textarea>`;else el=`<input id="${id}" type="${f.t=="date"?"date":"text"}" inputmode="${f.t=="number"?"decimal":"text"}" value="${esc(f.d??"")}" ${f.k=="from"||f.k=="to"?'list="ul"':""}>`;
  return `<label class="${f.w?"w":""}">${f.l}${el}</label>`}
@@ -129,18 +149,12 @@ async function admin(){if(profile?.role!="admin"){location.hash="#/";return}
 
 function route(){const h=location.hash||"#/";scrollTo(0,0);nav();if(h.startsWith("#/t/"))tool(h.slice(4));else if(h=="#/dash")dash();else if(h=="#/admin")admin();else home()}
 
-/* ====== intro video + progressive reveal ====== */
-const mob=matchMedia("(max-width:768px),(pointer:coarse)").matches;
+/* ====== scroll effects ====== */
 const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
-let io,done=false;
+let io;
 function count(el){if(el.dataset.c)return;el.dataset.c=1;const n=+el.dataset.n,t0=performance.now();(function s(t){const k=ease((t-t0)/1100);el.textContent=fa(Math.round(n*k),0);if(k<1)requestAnimationFrame(s)})(t0)}
-function observe(){if(!io)io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add("on");io.unobserve(e.target)}),{threshold:.1});document.querySelectorAll(".sr:not(.on)").forEach(e=>io.observe(e))}
-function reveal(p){document.querySelectorAll(".rv:not(.on)").forEach(e=>{if(p>=(+e.dataset.at||0))e.classList.add("on")});if(p>=.75||done)document.querySelectorAll("[data-n]").forEach(count);observe()}
-const vid=$("#vid"),intro=$("#intro"),app=$("#app");
-function finish(){if(done)return;done=true;app.style.cssText="";document.body.classList.add("ready");document.querySelectorAll(".rv").forEach(e=>e.classList.add("on"));reveal(1);intro.style.transition="opacity .8s";intro.style.opacity=0;intro.style.pointerEvents="none";setTimeout(()=>intro.remove(),900)}
-function tick(){if(done)return;const p=vid.duration?vid.currentTime/vid.duration:0;$("#bar").style.transform=`scaleX(${p})`;const s=ease((p-.4)/.55);intro.style.opacity=1-ease((p-.62)/.38);app.style.opacity=s;app.style.transform=`translate3d(0,${(1-s)*22}px,0) scale(${1.03-.03*s})`;if(!mob)app.style.filter=`blur(${12*(1-s)}px)`;reveal(p);requestAnimationFrame(tick)}
-$("#skip").onclick=finish;vid.addEventListener("ended",finish);vid.addEventListener("error",finish);
-vid.play().then(()=>{requestAnimationFrame(tick);setTimeout(()=>{if(vid.currentTime<.2)finish()},8000)}).catch(()=>{vid.style.display="none";$("#skip").style.display="none";$(".fb").style.display="flex";setTimeout(finish,2400)});
+function observe(){if(!io)io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add("on");io.unobserve(e.target);e.target.querySelectorAll("[data-n]").forEach(count)}),{threshold:.1});document.querySelectorAll(".sr:not(.on)").forEach(e=>io.observe(e))}
+const reveal=()=>observe();
 /* ====== boot ====== */
 addEventListener("hashchange",route);
 (async()=>{await loadProfile();route();sb&&sb.auth.onAuthStateChange(async()=>{await loadProfile()})})();
