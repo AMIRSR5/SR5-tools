@@ -78,8 +78,8 @@ const CATS=["همه",...new Set(T.map(t=>t.c))];
 /* ====== views ====== */
 let cat="همه",q="";
 function nav(){const h=location.hash||"#/";const n=$("#nav");
- n.innerHTML=user?`<a class="btn hide-m" href="#/dash">⚡ ${fa(profile?.credits??0,0)} اعتبار</a>${profile?.role=="admin"?'<a class="btn hide-m" href="#/admin">🛡️ ادمین</a>':""}<button class="btn hide-m" id="lo">خروج</button>`:`<button class="btn pri" id="li">ورود با Google</button>`;
- $("#bn").innerHTML=`<a href="#/" class="${h=="#/"||h.startsWith("#/t/")?"on":""}"><span>🧰</span>ابزارها</a>`+(user?`<a href="#/dash" class="${h=="#/dash"?"on":""}"><span>⚡</span>${fa(profile?.credits??0,0)} اعتبار</a>${profile?.role=="admin"?`<a href="#/admin" class="${h=="#/admin"?"on":""}"><span>🛡️</span>ادمین</a>`:""}<button id="lo2"><span>🚪</span>خروج</button>`:`<button id="li2"><span>🔑</span>ورود</button>`);
+ n.innerHTML=user?`<a class="btn hide-m" href="#/chat">💬 چت‌بات</a><a class="btn hide-m" href="#/dash">⚡ ${fa(profile?.credits??0,0)} اعتبار</a>${profile?.role=="admin"?'<a class="btn hide-m" href="#/admin">🛡️ ادمین</a>':""}<button class="btn hide-m" id="lo">خروج</button>`:`<button class="btn pri" id="li">ورود با Google</button>`;
+ $("#bn").innerHTML=`<a href="#/" class="${h=="#/"||h.startsWith("#/t/")?"on":""}"><span>🧰</span>ابزارها</a><a href="#/chat" class="${h=="#/chat"?"on":""}"><span>💬</span>چت</a>`+(user?`<a href="#/dash" class="${h=="#/dash"?"on":""}"><span>⚡</span>${fa(profile?.credits??0,0)} اعتبار</a>${profile?.role=="admin"?`<a href="#/admin" class="${h=="#/admin"?"on":""}"><span>🛡️</span>ادمین</a>`:""}<button id="lo2"><span>🚪</span>خروج</button>`:`<button id="li2"><span>🔑</span>ورود</button>`);
  for(const i of["li","li2"])$("#"+i)&&($("#"+i).onclick=login);
  for(const i of["lo","lo2"])$("#"+i)&&($("#"+i).onclick=async()=>{await sb.auth.signOut();user=profile=null;location.hash="#/";nav()})}
 async function login(){if(!sb)return toast("ابتدا Supabase را در index.html تنظیم کنید");await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}})}
@@ -109,6 +109,7 @@ function home(){document.title="SR5 Tools | ۳۰ ابزار آنلاین فار�
  <div class="ly" data-a=".78" data-b="1" data-l="1"><span class="pill">۳ / ۳</span><h2>۳ اعتبار رایگان</h2><p>با ورود Google شروع کن. ابزارهای غیر AI همیشه رایگانند.</p><div class="cta"><button class="btn pri lg" id="c1">ورود و شروع</button><button class="btn lg" id="c2">مشاهده ابزارها ↓</button></div></div>
  <div class="pbar"><i id="pb"></i></div></div></section>
  <section class="stats"><div class="st sr"><b data-n="30">۰</b><small>ابزار واقعی</small></div><div class="st sr" style="--d:1"><b data-n="10">۰</b><small>ابزار هوش مصنوعی</small></div><div class="st sr" style="--d:2"><b data-n="8">۰</b><small>دسته‌بندی</small></div><div class="st sr" style="--d:3"><b data-n="3">۰</b><small>اعتبار رایگان</small></div></section>
+ <div class="band sr" style="margin:50px 0 0"><h2>💬 چت‌بات هوشمند</h2><p>با هوش مصنوعی فارسی گفتگو کن؛ ۵ پیام رایگان برای هر کاربر.</p><a class="btn pri lg" href="#/chat">شروع گفتگو</a></div>
  <h2 class="h2 sr" id="catsec">دسته‌بندی ابزارها</h2><p class="sub sr">یک دسته را انتخاب کن تا ابزارهایش را ببینی</p>
  <div class="cgrid">${Object.entries(CD).map(([c,[i,d]],k)=>`<div class="cc sr" style="--d:${k%4}" data-cc="${c}"><span class="ci">${i}</span><h3>${c}</h3><p>${d}</p><small>${fa(cc(c),0)} ابزار ←</small></div>`).join("")}</div>
  <h2 class="h2 sr" id="tools">همه ابزارها</h2><p class="sub sr">دنبال چی می‌گردی؟</p>
@@ -147,7 +148,25 @@ async function admin(){if(profile?.role!="admin"){location.hash="#/";return}
  <h3 style="margin-top:24px">آخرین استفاده‌ها</h3><div style="overflow:auto"><table>${lg.map(l=>`<tr><td>${us.find(u=>u.id==l.user_id)?.email||""}</td><td>${T.find(t=>t.id==l.tool)?.n||l.tool}</td><td>${l.provider||""}</td><td>${new Date(l.created_at).toLocaleString("fa-IR")}</td></tr>`).join("")}</table></div></div>`;
  document.querySelectorAll("[data-sv]").forEach(b=>b.onclick=async()=>{const id=b.dataset.sv;const{error}=await sb.from("profiles").update({credits:parseInt($(`[data-cr="${id}"]`).value)||0,role:$(`[data-ro="${id}"]`).value}).eq("id",id);toast(error?"خطا در ذخیره":"ذخیره شد")});reveal(1)}
 
-function route(){const h=location.hash||"#/";scrollTo(0,0);nav();if(h.startsWith("#/t/"))tool(h.slice(4));else if(h=="#/dash")dash();else if(h=="#/admin")admin();else home()}
+
+/* ====== chatbot (5 free messages) ====== */
+let chatMsgs=[];const CHAT_LIM=5;
+function chat(){document.title="چت‌بات هوشمند | SR5 Tools";
+ if(!user){$("#view").innerHTML='<div class="panel"><a href="#/">← بازگشت</a><h2>💬 چت‌بات هوشمند</h2><p style="color:var(--mu);margin:10px 0 18px">برای استفاده از چت‌بات وارد شوید؛ ۵ پیام رایگان دارید.</p><button class="btn pri lg" id="lc">ورود با Google</button></div>';$("#lc").onclick=login;return}
+ const adm=profile?.role=="admin";
+ const left=()=>adm?"نامحدود (ادمین)":`${fa(Math.max(0,CHAT_LIM-(profile?.chat_used??0)),0)} پیام از ${fa(CHAT_LIM,0)} پیام رایگان باقی مانده`;
+ $("#view").innerHTML=`<div class="panel"><a href="#/">← بازگشت</a><h2>💬 چت‌بات هوشمند</h2><p id="cl" style="color:var(--b);font-size:14px"></p><div class="cm" id="cm"></div><div class="cin"><textarea id="ci" rows="1" placeholder="پیامت را بنویس…"></textarea><button class="btn pri" id="cs">ارسال</button></div></div>`;
+ const draw=pend=>{$("#cl").textContent=left();$("#cm").innerHTML=(chatMsgs.length?"":'<div class="b a">سلام! 👋 هر سوالی داری بپرس.</div>')+chatMsgs.map(m=>`<div class="b ${m.role=="user"?"u":"a"}">${esc(m.content)}</div>`).join("")+(pend?'<div class="b a">⏳ در حال نوشتن…</div>':"");$("#cm").scrollTop=1e9};
+ const send=async()=>{const el=$("#ci"),txt=el.value.trim();if(!txt)return;if(!adm&&(profile.chat_used??0)>=CHAT_LIM)return toast("سهمیه ۵ پیام رایگان شما تمام شده است");
+  chatMsgs.push({role:"user",content:txt});el.value="";draw(true);$("#cs").disabled=true;
+  try{const{data,error}=await Promise.race([sb.functions.invoke("ai",{body:{tool:"chat",messages:chatMsgs}}),new Promise((_,rj)=>setTimeout(()=>rj("پاسخی از سرور نیامد؛ دوباره تلاش کن."),70000))]);
+   if(error||data?.error){let m=data?.error;try{if(!m&&error.context)m=(await error.context.json()).error}catch(_){}throw m||"خطا در ارتباط با سرور"}
+   chatMsgs.push({role:"assistant",content:data.text});profile.chat_used=data.chat_used}
+  catch(e){chatMsgs.pop();el.value=txt;toast(String(e).slice(0,140))}
+  $("#cs").disabled=false;draw(false)};
+ $("#cs").onclick=send;$("#ci").onkeydown=e=>{if(e.key=="Enter"&&!e.shiftKey&&!matchMedia("(pointer:coarse)").matches){e.preventDefault();send()}};draw(false)}
+
+function route(){const h=location.hash||"#/";scrollTo(0,0);nav();if(h.startsWith("#/t/"))tool(h.slice(4));else if(h=="#/dash")dash();else if(h=="#/admin")admin();else if(h=="#/chat")chat();else home()}
 
 /* ====== scroll effects ====== */
 const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
