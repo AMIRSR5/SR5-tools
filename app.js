@@ -218,3 +218,14 @@ addEventListener("hashchange",async()=>{if(needAuth(location.hash)&&!loaded){$("
  sb&&sb.auth.onAuthStateChange(async()=>{await loadProfile()})})();
 
 $("#bk").onclick=()=>history.length>1?history.back():(location.hash="#/");
+
+/* ====== PWA install ====== */
+if("serviceWorker" in navigator)addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+let dip=null;const standalone=()=>matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform=="MacIntel"&&navigator.maxTouchPoints>1);
+addEventListener("beforeinstallprompt",e=>{e.preventDefault();dip=e});
+function installHelp(){const m=document.createElement("div");m.className="md";const steps=isIOS?"۱) در Safari دکمه <b>Share</b> (مربع با فلش رو به بالا) را بزن.<br>۲) پایین بیا و <b>Add to Home Screen</b> را انتخاب کن.<br>۳) روی <b>Add</b> بزن؛ آیکون SR5 Tools روی صفحه اصلی ساخته می‌شود.":/android/i.test(navigator.userAgent)?"۱) منوی سه‌نقطه ⋮ مرورگر را بزن.<br>۲) <b>Install app</b> یا <b>Add to Home screen</b> را انتخاب کن.":"۱) در Chrome یا Edge، آیکون نصب (📲 یا ⊕) سمت راست نوار آدرس را بزن.<br>۲) اگر نبود: منوی ⋮ ← <b>Cast, save and share</b> ← <b>Install page as app</b> (در Edge: Apps ← Install this site as an app).<br>۳) <b>Install</b> را بزن؛ برنامه در منوی Start و دسکتاپ ساخته می‌شود.";
+ m.innerHTML=`<div><h3>📲 نصب SR5 Tools</h3><p style="color:#c9d8ea;font-size:14px">${steps}</p><button class="btn pri" style="margin-top:10px;width:100%">متوجه شدم</button></div>`;m.onclick=e=>{if(e.target==m||e.target.tagName=="BUTTON")m.remove()};document.body.append(m)}
+async function installApp(){if(dip){dip.prompt();try{await dip.userChoice}catch(_){}dip=null}else installHelp()}
+(function(){const b=$("#inst");if(!b)return;if(standalone()){b.style.display="none";return}b.onclick=installApp;
+ if(localStorage.getItem("sr5_ib"))return;setTimeout(()=>{if(document.getElementById("ib"))return;const d=document.createElement("div");d.id="ib";d.innerHTML='<img src="icon-192.png" alt="" width="44" height="44" style="border-radius:12px"><div style="flex:1;font-size:14px;line-height:1.7"><b>نصب اپلیکیشن SR5 Tools</b><br><small style="color:var(--mu)">دسترسی سریع از صفحه اصلی گوشی یا ویندوز</small></div><button class="btn pri" id="ibi">نصب</button><button class="btn" id="ibx" aria-label="بستن">✕</button>';document.body.append(d);$("#ibi").onclick=()=>{installApp();d.remove()};$("#ibx").onclick=()=>{localStorage.setItem("sr5_ib","1");d.remove()}},7000)})();

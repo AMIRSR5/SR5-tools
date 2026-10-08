@@ -183,3 +183,10 @@ footer p{margin:4px 0}.fl{display:flex;gap:16px;justify-content:center;flex-wrap
 header{background:#03060bf5}
 #bn{background:#0a121d}
 footer{padding-bottom:130px}
+
+/* install banner + modal */
+#ib{position:fixed;left:12px;right:12px;bottom:calc(92px + env(safe-area-inset-bottom,0));z-index:45;background:#0a121d;border:1px solid #7c6bff88;border-radius:18px;padding:12px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 10px 40px #000a;animation:pop .5s both}
+#ib .btn{padding:8px 14px}
+@media(min-width:769px){#ib{left:auto;right:20px;bottom:20px;max-width:400px}}
+.md{position:fixed;inset:0;z-index:150;background:#000b;display:grid;place-items:center;padding:20px}
+.md>div{background:#0a121d;border:1px solid var(--line2);border-radius:22px;padding:22px;max-width:420px;width:100%;line-height:2}
