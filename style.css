@@ -132,3 +132,46 @@ footer{text-align:center;color:var(--mu);padding:34px 20px 110px;font-size:13px;
 .cin{display:flex;gap:8px;align-items:flex-end}
 .cin textarea{flex:1;background:#050a11;border:1px solid var(--line2);border-radius:16px;padding:13px 15px;outline:0;color:var(--tx);font-size:16px;resize:none;max-height:120px}
 .cin textarea:focus{border-color:var(--b)}
+
+/* v3 additions */
+.btn{position:relative;overflow:hidden}
+#bk{padding:8px 14px;font-size:18px}
+.rp{position:absolute;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#22d3ee66,#7c6bff44 55%,transparent 70%);pointer-events:none;transform:translate(-50%,-50%) scale(0);animation:rpl .75s ease-out forwards}
+@keyframes rpl{to{transform:translate(-50%,-50%) scale(22);opacity:0}}
+.tc.tch:before,.cc.tch:before{opacity:1}
+.tc.tch,.cc.tch,.sp.tch,.plan.tch{border-color:#7c6bffaa;box-shadow:0 10px 40px #7c6bff33}
+.sp,.st,.plan,.kv,.cc,.tc{position:relative;overflow:hidden}
+.tc .cv{width:calc(100% + 44px);height:120px;object-fit:cover;margin:-22px -22px 14px;display:block}
+.banner{width:100%;max-height:220px;object-fit:cover;border-radius:18px;margin:12px 0}
+/* chat */
+.chatp{display:flex;flex-direction:column;height:calc(100vh - 140px);height:calc(100dvh - 140px);min-height:420px;margin-top:14px}
+.chh{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.chh h2{margin:0;font-size:20px}.chh span{color:var(--b);font-size:13px}
+.chatp .cm{flex:1;height:auto;min-height:0;margin:10px 0}
+/* plans / about / admin */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;max-width:760px;margin:0 auto}
+.plan{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;text-align:center}
+.plan.pro{border-color:#7c6bff88;box-shadow:0 0 50px #7c6bff22}
+.plan h3{margin-bottom:8px}.pp{font-size:34px;font-weight:800;margin:6px 0 14px;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}.pp small{font-size:13px;color:var(--mu);-webkit-text-fill-color:var(--mu)}
+.plan ul{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:10px;color:#c9d8ea;font-size:14px}.plan li:before{content:"✓ ";color:var(--b)}
+.about{text-align:center}.about .al{width:90px;border-radius:24px;box-shadow:0 0 40px #7c6bff66;margin-bottom:6px}.about p{color:#c9d8ea;line-height:2.2;max-width:640px;margin:10px auto 22px}.about .kv{text-decoration:none;color:inherit;text-align:center}
+.ulist{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:16px}
+.uc{background:#050a11;border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:10px}.ue{font-size:14px;word-break:break-all}.uc small{color:var(--mu)}
+.ur{display:flex;gap:10px}.ur label{flex:1;display:grid;gap:4px;font-size:12px;color:var(--mu)}.ur input,.ur select{background:#0a121d;border:1px solid var(--line2);border-radius:10px;padding:9px;color:var(--tx);width:100%;font-size:15px}
+.ub{display:flex;gap:6px;flex-wrap:wrap}.ub .btn{padding:8px 12px;font-size:13px}
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.ic2{background:#050a11;border:1px solid var(--line);border-radius:16px;padding:10px;display:grid;gap:8px;text-align:center}.ic2 small{font-size:13px;min-height:36px}
+.ph{height:100px;border-radius:12px;overflow:hidden;background:#0a121d;display:grid;place-items:center;font-size:34px}.ph img{width:100%;height:100%;object-fit:cover}.ic2 .ub{justify-content:center}
+.tabs{justify-content:flex-start!important}
+/* footer */
+footer p{margin:4px 0}.fl{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}.su{color:var(--b);font-size:13px}#enamad{margin-bottom:12px;display:flex;justify-content:center}
+/* mobile */
+@media(max-width:768px){
+ main{padding-bottom:30px}
+ .chatp{height:calc(100dvh - 205px);padding:14px;border-radius:20px;margin-top:8px}
+ .chh h2{font-size:17px}
+ .cgrid{grid-template-columns:1fr 1fr;gap:8px}
+ .cc{display:grid;grid-template-columns:auto 1fr;gap:0 10px;align-items:center;padding:12px;border-radius:16px}
+ .cc .ci{grid-row:span 2;font-size:26px;margin:0}.cc h3{font-size:14px;margin:0}.cc p{display:none}.cc small{margin:0;font-size:11px}
+ .tc .cv{width:calc(100% + 32px);height:84px;margin:-16px -16px 10px}
+ .h2{margin-top:40px}
+}

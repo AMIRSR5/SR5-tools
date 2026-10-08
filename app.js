@@ -77,18 +77,26 @@ const CATS=["همه",...new Set(T.map(t=>t.c))];
 
 /* ====== views ====== */
 let cat="همه",q="";
-function nav(){const h=location.hash||"#/";const n=$("#nav");
- n.innerHTML=user?`<a class="btn hide-m" href="#/chat">💬 چت‌بات</a><a class="btn hide-m" href="#/dash">⚡ ${fa(profile?.credits??0,0)} اعتبار</a>${profile?.role=="admin"?'<a class="btn hide-m" href="#/admin">🛡️ ادمین</a>':""}<button class="btn hide-m" id="lo">خروج</button>`:`<button class="btn pri" id="li">ورود با Google</button>`;
- $("#bn").innerHTML=`<a href="#/" class="${h=="#/"||h.startsWith("#/t/")?"on":""}"><span>🧰</span>ابزارها</a><a href="#/chat" class="${h=="#/chat"?"on":""}"><span>💬</span>چت</a>`+(user?`<a href="#/dash" class="${h=="#/dash"?"on":""}"><span>⚡</span>${fa(profile?.credits??0,0)} اعتبار</a>${profile?.role=="admin"?`<a href="#/admin" class="${h=="#/admin"?"on":""}"><span>🛡️</span>ادمین</a>`:""}<button id="lo2"><span>🚪</span>خروج</button>`:`<button id="li2"><span>🔑</span>ورود</button>`);
- for(const i of["li","li2"])$("#"+i)&&($("#"+i).onclick=login);
- for(const i of["lo","lo2"])$("#"+i)&&($("#"+i).onclick=async()=>{await sb.auth.signOut();user=profile=null;location.hash="#/";nav()})}
+const SITE_URL="https://amirsr5.github.io/SR5-tools/",TG="https://t.me/sr5_admin";
+let IMG={},SET={};
+const sn=(k,d)=>{const v=parseInt(SET[k]);return isNaN(v)?d:v};
+const ti=t=>IMG[t.id]?`<img class="cv" src="${IMG[t.id]}" alt="${esc(t.n)}" loading="lazy">`:`<div class="ic">${t.i}</div>`;
+async function loadMeta(){if(!sb)return;try{const[a,b]=await Promise.all([sb.from("tool_images").select("*"),sb.from("settings").select("*")]);IMG=Object.fromEntries((a.data||[]).map(r=>[r.tool,r.url]));SET=Object.fromEntries((b.data||[]).map(r=>[r.key,r.value]))}catch(_){}
+ const e=$("#enamad");if(e)e.innerHTML=SET.enamad_html||""}
+async function logout(){try{await Promise.race([sb.auth.signOut({scope:"local"}),new Promise(r=>setTimeout(r,2000))])}catch(_){}
+ try{Object.keys(localStorage).filter(k=>k.startsWith("sb-")).forEach(k=>localStorage.removeItem(k))}catch(_){}
+ user=profile=null;location.hash="#/";location.reload()}
+function nav(){const h=location.hash||"#/",on=p=>h==p?"on":"";const n=$("#nav");
+ n.innerHTML=`<a class="btn hide-m" href="#/chat">💬 چت‌بات</a><a class="btn hide-m" href="#/pricing">💎 اشتراک</a><a class="btn hide-m" href="#/about">درباره ما</a>`+(user?`<a class="btn hide-m" href="#/dash">⚡ ${fa(profile?.credits??0,0)} اعتبار</a>${profile?.role=="admin"?'<a class="btn hide-m" href="#/admin">🛡️ ادمین</a>':""}<button class="btn hide-m" id="lo">خروج</button>`:`<button class="btn pri" id="li">ورود با Google</button>`);
+ $("#bn").innerHTML=`<a href="#/" class="${h=="#/"||h.startsWith("#/t/")?"on":""}"><span>🧰</span>ابزارها</a><a href="#/chat" class="${on("#/chat")}"><span>💬</span>چت</a><a href="#/pricing" class="${on("#/pricing")}"><span>💎</span>اشتراک</a>`+(user?`<a href="#/dash" class="${on("#/dash")}"><span>⚡</span>${fa(profile?.credits??0,0)}</a>`+(profile?.role=="admin"?`<a href="#/admin" class="${on("#/admin")}"><span>🛡️</span>ادمین</a>`:""):`<button id="li2"><span>🔑</span>ورود</button>`);
+ $("#bk").style.display=(h=="#/"||h=="")?"none":"inline-flex";
+ for(const i of["li","li2"])$("#"+i)&&($("#"+i).onclick=login);$("#lo")&&($("#lo").onclick=logout)}
 async function login(){if(!sb)return toast("ابتدا Supabase را در index.html تنظیم کنید");await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}})}
-async function loadProfile(){if(!sb)return;const{data:{session}}=await sb.auth.getSession();user=session?.user||null;profile=null;if(user){const{data}=await sb.from("profiles").select("*").eq("id",user.id).single();profile=data}nav()}
-
+async function loadProfile(){if(!sb)return;try{const{data:{session}}=await sb.auth.getSession();user=session?.user||null;profile=null;if(user){const{data}=await sb.from("profiles").select("*").eq("id",user.id).single();const{data:q}=await sb.rpc("my_quota");profile=data?{...data,...(q||{})}:null}}catch(e){}nav()}
 const CD={"محاسبات":["🧮","سن، درصد، تخفیف و محاسبات روزمره"],"سلامت":["💪","BMI، کالری و وزن ایده‌آل"],"مالی":["💰","وام، سود مرکب، سود و زیان"],"املاک":["🏠","تبدیل رهن و اجاره و کمیسیون"],"هوش مصنوعی":["🤖","مقاله، کپشن، ریلز، رزومه و بیشتر"],"ساخت":["🛠️","QR، فاکتور، رزومه PDF، کارت ویزیت"],"ابزار":["⚙️","تبدیل واحد و دما، شمارش کلمات، رمزساز"],"خودرو":["🚗","مصرف سوخت و افت قیمت"]};
 function renderGrid(){const list=T.filter(t=>(cat=="همه"||t.c==cat)&&(t.n+t.d).includes(q));
  $("#cats").innerHTML=CATS.map(c=>`<button class="btn ${c==cat?"on":""}" data-c="${c}">${c}</button>`).join("");
- $("#grid").innerHTML=list.map((t,i)=>`<div class="tc sr" style="--d:${Math.min(i%8,7)}" data-id="${t.id}">${t.ai?'<span class="tag">AI</span>':""}<div class="ic">${t.i}</div><h3>${t.n}</h3><p>${t.d}</p></div>`).join("")||'<p style="grid-column:1/-1;text-align:center;color:var(--mu)">چیزی پیدا نشد</p>';
+ $("#grid").innerHTML=list.map((t,i)=>`<div class="tc sr" style="--d:${Math.min(i%8,7)}" data-id="${t.id}">${t.ai?'<span class="tag">AI</span>':""}${ti(t)}<h3>${t.n}</h3><p>${t.d}</p></div>`).join("")||'<p style="grid-column:1/-1;text-align:center;color:var(--mu)">چیزی پیدا نشد</p>';
  document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{cat=b.dataset.c;renderGrid()});
  document.querySelectorAll(".tc").forEach(c=>c.onclick=()=>location.hash="#/t/"+c.dataset.id);observe()}
 function scrolly(){const sc=$("#sc"),v=$("#sv");if(!sc)return;let target=0,cur=0,last=-1;const ly=[...sc.querySelectorAll(".ly")];
@@ -115,7 +123,7 @@ function home(){document.title="SR5 Tools | ۳۰ ابزار آنلاین فار�
  <h2 class="h2 sr" id="tools">همه ابزارها</h2><p class="sub sr">دنبال چی می‌گردی؟</p>
  <input class="srch sr" id="q" placeholder="جستجوی ابزار…" value="${esc(q)}"><div class="cats" id="cats"></div><div class="grid" id="grid"></div>
  <h2 class="h2 sr">چطور کار می‌کند؟</h2><div class="steps"><div class="sp sr"><em>۱</em><h3>ورود با Google</h3><p>با یک کلیک وارد شو و ۳ اعتبار رایگان دریافت کن.</p></div><div class="sp sr" style="--d:1"><em>۲</em><h3>انتخاب ابزار</h3><p>از بین ۳۰ ابزار محاسباتی، ساخت و هوش مصنوعی انتخاب کن.</p></div><div class="sp sr" style="--d:2"><em>۳</em><h3>نتیجه آماده</h3><p>خروجی را کپی کن، چاپ کن یا به‌صورت PDF ذخیره کن.</p></div></div>
- <div class="band sr"><h2>آماده‌ای شروع کنی؟</h2><p>ابزارهای غیر AI همیشه رایگان و بدون ورود قابل استفاده‌اند.</p><button class="btn pri lg" id="c3">ورود و دریافت ۳ اعتبار</button></div>`;
+ ${plansHTML()}<div class="band sr"><h2>آماده‌ای شروع کنی؟</h2><p>ابزارهای غیر AI همیشه رایگان و بدون ورود قابل استفاده‌اند.</p><button class="btn pri lg" id="c3">ورود و دریافت ۳ اعتبار</button></div>`;
  $("#q").oninput=e=>{q=e.target.value;renderGrid()};
  const to=id=>document.getElementById(id).scrollIntoView({behavior:"smooth"});
  $("#c1").onclick=()=>user?to("catsec"):login();$("#c3").onclick=()=>user?to("tools"):login();$("#c2").onclick=()=>to("catsec");
@@ -126,7 +134,7 @@ function field(f){const id="f_"+f.k;let el;if(f.t=="select")el=`<select id="${id
  else if(f.t=="textarea")el=`<textarea id="${id}">${esc(f.d??"")}</textarea>`;else el=`<input id="${id}" type="${f.t=="date"?"date":"text"}" inputmode="${f.t=="number"?"decimal":"text"}" value="${esc(f.d??"")}" ${f.k=="from"||f.k=="to"?'list="ul"':""}>`;
  return `<label class="${f.w?"w":""}">${f.l}${el}</label>`}
 function tool(id){const t=T.find(x=>x.id==id);if(!t)return location.hash="#/";document.title=t.n+" | SR5 Tools";
- $("#view").innerHTML=`<div class="panel"><a href="#/">← همه ابزارها</a><h2 style="margin:10px 0 4px">${t.i} ${t.n}</h2><p style="color:var(--mu);margin-bottom:18px">${t.d}${t.ai?" — هر اجرای موفق ۱ اعتبار مصرف می‌کند.":""}</p><div class="f">${t.f.map(field).join("")}${t.unit?`<datalist id="ul">${Object.keys(UNITS[Object.keys(UNITS)[0]]).map(u=>`<option>${u}</option>`).join("")}</datalist>`:""}</div><div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" id="go">${t.ai?"تولید با هوش مصنوعی":"محاسبه"}</button>${t.pr?'<button class="btn" id="pr">چاپ / ذخیره PDF</button>':""}</div><div class="out" id="out"></div></div>`;
+ $("#view").innerHTML=`<div class="panel"><a href="#/">← همه ابزارها</a>${IMG[t.id]?`<img class="banner" src="${IMG[t.id]}" alt="">`:""}<h2 style="margin:10px 0 4px">${t.i} ${t.n}</h2><p style="color:var(--mu);margin-bottom:18px">${t.d}${t.ai?" — هر اجرای موفق ۱ اعتبار مصرف می‌کند.":""}</p><div class="f">${t.f.map(field).join("")}${t.unit?`<datalist id="ul">${Object.keys(UNITS[Object.keys(UNITS)[0]]).map(u=>`<option>${u}</option>`).join("")}</datalist>`:""}</div><div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" id="go">${t.ai?"تولید با هوش مصنوعی":"محاسبه"}</button>${t.pr?'<button class="btn" id="pr">چاپ / ذخیره PDF</button>':""}</div><div class="out" id="out"></div></div>`;
  const vals=()=>Object.fromEntries(t.f.map(f=>[f.k,$("#f_"+f.k).value]));const out=$("#out");
  if(t.unit){const c=$("#f_c");c.onchange=()=>{$("#ul").innerHTML=Object.keys(UNITS[c.value]).map(u=>`<option>${u}</option>`).join("");const k=Object.keys(UNITS[c.value]);$("#f_from").value=k[0];$("#f_to").value=k[1]}}
  const show=r=>{out.innerHTML="";typeof r=="string"?out.innerHTML=r:out.append(r)};
@@ -137,36 +145,58 @@ function tool(id){const t=T.find(x=>x.id==id);if(!t)return location.hash="#/";do
   else show(t.run(vals()))}catch(e){$("#go").disabled=false;out.innerHTML=`<div class="err">${esc(e)}</div>`}};
  $("#go").onclick=exec;$("#pr")&&($("#pr").onclick=async()=>{await exec();setTimeout(()=>print(),200)});if(t.live)$("#f_t").oninput=exec;reveal(1)}
 
+function plansHTML(buy){const fc=sn("free_credits",3),fh=sn("free_chat",5),pc=sn("pro_credits",12),ph=sn("pro_chat",12),pr=sn("price_toman",30000);const b=buy?`href="${buy}" target="_blank" rel="noopener"`:'href="#/pricing"';
+ return `<h2 class="h2 sr">اشتراک ویژه</h2><p class="sub sr">اعتبار و پیام چت هر روز شارژ می‌شود (ساعت ۱۲ شب به وقت ایران)</p><div class="plans"><div class="plan sr"><h3>رایگان</h3><div class="pp">۰ <small>تومان</small></div><ul><li>${fa(fc,0)} اعتبار هوش مصنوعی در روز</li><li>${fa(fh,0)} پیام چت‌بات در روز</li><li>۲۰ ابزار غیر AI نامحدود</li></ul><a class="btn" href="#/">شروع کن</a></div><div class="plan pro sr" style="--d:1"><span class="tag">پیشنهادی</span><h3>ویژه ۱ ماهه</h3><div class="pp">${fa(pr,0)} <small>تومان / ماه</small></div><ul><li>${fa(pc,0)} اعتبار هوش مصنوعی در روز</li><li>${fa(ph,0)} پیام چت‌بات در روز</li><li>۲۰ ابزار غیر AI نامحدود</li></ul><a class="btn pri" ${b}>${buy?"خرید از طریق تلگرام":"خرید اشتراک"}</a></div></div>`}
+function pricing(){document.title="اشتراک ویژه | SR5 Tools";const pu=profile?.is_pro&&profile?.pro_until?new Date(profile.pro_until).toLocaleDateString("fa-IR"):"";
+ $("#view").innerHTML=`<div class="panel"><h2>💎 اشتراک ویژه</h2>${pu?`<p style="color:var(--b)">اشتراک ویژه شما تا ${pu} فعال است.</p>`:""}${plansHTML(TG)}<div class="kv" style="margin-top:18px"><small>پرداخت آنلاین</small><p style="line-height:2;color:var(--mu)">درگاه پرداخت آنلاین به‌زودی فعال می‌شود. تا آن زمان، برای خرید اشتراک در تلگرام به <a href="${TG}" target="_blank" rel="noopener">@sr5_admin</a> پیام بده؛ بعد از پرداخت، اشتراکت همان لحظه فعال می‌شود.</p></div></div>`;observe()}
+function about(){document.title="درباره ما | SR5 Tools";
+ $("#view").innerHTML=`<div class="panel about"><img src="logo.png" alt="SR5 Tools" class="al"><h2>درباره ما</h2><p>سلام! من <b>امیرحسین سرافراز</b> هستم، سازنده SR5 Tools. این پروژه را ساختم تا مجموعه‌ای سریع، ساده و کاربردی از ابزارهای آنلاین فارسی، از ماشین‌حساب‌های روزمره تا ابزارهای هوش مصنوعی برای تولید محتوا، یک‌جا در دسترس باشد. اگر پیشنهاد، انتقاد یا ایده‌ای برای ابزار جدید داری، خوشحال می‌شوم بشنوم.</p><div class="out"><a class="kv" href="tel:+989037241969"><small>📞 شماره تماس</small><b dir="ltr">0903 724 1969</b></a><a class="kv" href="mailto:info@amirhooseinsarafraz.ir"><small>✉️ ایمیل</small><b dir="ltr" style="font-size:15px">info@amirhooseinsarafraz.ir</b></a><a class="kv" href="${TG}" target="_blank" rel="noopener"><small>💬 تلگرام</small><b dir="ltr">@sr5_admin</b></a><a class="kv" href="${SITE_URL}"><small>🌐 آدرس سایت</small><b dir="ltr" style="font-size:14px">amirsr5.github.io/SR5-tools</b></a></div></div>`}
 async function dash(){if(!user){location.hash="#/";return login()}
- const{data:log}=await sb.from("usage_log").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(30);
- $("#view").innerHTML=`<div class="panel"><h2>داشبورد</h2><div class="stat" style="margin:16px 0"><div class="kv"><small>اعتبار باقی‌مانده</small><b>${fa(profile.credits,0)}</b></div><div class="kv"><small>ایمیل</small><b style="font-size:14px">${esc(user.email)}</b></div><div class="kv"><small>مجموع استفاده</small><b>${fa(log.length,0)}</b></div></div><h3>تاریخچه استفاده</h3><table>${log.map(l=>`<tr><td>${T.find(t=>t.id==l.tool)?.n||l.tool}</td><td>${l.provider||""}</td><td>${new Date(l.created_at).toLocaleString("fa-IR")}</td></tr>`).join("")||"<tr><td>هنوز استفاده‌ای نداشته‌اید</td></tr>"}</table></div>`;reveal(1)}
-
+ let log=[];try{const{data}=await sb.from("usage_log").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(30);log=data||[]}catch(_){}
+ const p=profile||{},adm=p.role=="admin";
+ $("#view").innerHTML=`<div class="panel"><h2>⚡ حساب من</h2><p style="color:var(--mu);font-size:13px;margin:4px 0 14px" dir="ltr">${esc(user.email||"")}</p><div class="stat"><div class="kv"><small>اعتبار AI امروز</small><b>${adm?"∞":fa(p.credits??0,0)+" / "+fa(p.credits_limit??3,0)}</b></div><div class="kv"><small>پیام چت امروز</small><b>${adm?"∞":fa(p.chat_left??0,0)+" / "+fa(p.chat_limit??5,0)}</b></div><div class="kv"><small>پلن</small><b style="font-size:16px">${p.is_pro?"💎 ویژه تا "+new Date(p.pro_until).toLocaleDateString("fa-IR"):"رایگان"}</b></div></div><p style="color:var(--mu);font-size:13px;margin:12px 0">اعتبار و پیام‌ها هر شب ساعت ۱۲ (به وقت ایران) دوباره شارژ می‌شوند.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px"><a class="btn pri" href="#/pricing">💎 ارتقا به اشتراک ویژه</a><button class="btn" id="lo3">خروج از حساب</button></div><h3>تاریخچه استفاده</h3><table>${log.map(l=>`<tr><td>${T.find(t=>t.id==l.tool)?.n||l.tool}</td><td>${l.provider||""}</td><td>${new Date(l.created_at).toLocaleString("fa-IR")}</td></tr>`).join("")||"<tr><td>هنوز استفاده‌ای نداشته‌اید</td></tr>"}</table></div>`;
+ $("#lo3").onclick=logout}
+/* ====== admin ====== */
+let atab="users";
+async function resizeImg(f,max=720){const b=await createImageBitmap(f),k=Math.min(1,max/b.width),c=document.createElement("canvas");c.width=Math.round(b.width*k);c.height=Math.round(b.height*k);c.getContext("2d").drawImage(b,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,"image/jpeg",.82))}
+async function upImg(id,f){const blob=await resizeImg(f),path=`${id}-${Date.now()}.jpg`;const{error}=await sb.storage.from("tool-images").upload(path,blob,{contentType:"image/jpeg"});if(error)throw error;const{data}=sb.storage.from("tool-images").getPublicUrl(path);const r=await sb.from("tool_images").upsert({tool:id,url:data.publicUrl,updated_at:new Date().toISOString()});if(r.error)throw r.error;IMG[id]=data.publicUrl}
 async function admin(){if(profile?.role!="admin"){location.hash="#/";return}
- const[{data:us},{data:lg}]=await Promise.all([sb.from("profiles").select("*").order("created_at",{ascending:false}),sb.from("usage_log").select("*").order("created_at",{ascending:false}).limit(50)]);
- $("#view").innerHTML=`<div class="panel"><h2>🛡️ پنل ادمین</h2><div class="stat" style="margin:16px 0"><div class="kv"><small>کاربران</small><b>${fa(us.length,0)}</b></div><div class="kv"><small>مجموع اعتبار کاربران</small><b>${fa(us.reduce((a,u)=>a+u.credits,0),0)}</b></div><div class="kv"><small>اجراهای اخیر</small><b>${fa(lg.length,0)}</b></div></div>
- <h3>کاربران</h3><div style="overflow:auto"><table><tr><th>ایمیل</th><th>اعتبار</th><th>نقش</th><th></th></tr>${us.map(u=>`<tr><td dir="ltr">${esc(u.email)}</td><td><input type="number" value="${u.credits}" min="0" style="width:80px;background:#060c13;border:1px solid var(--line);border-radius:8px;padding:6px;color:var(--tx)" data-cr="${u.id}"></td><td><select data-ro="${u.id}" style="background:#060c13;border:1px solid var(--line);border-radius:8px;padding:6px;color:var(--tx)"><option ${u.role=="user"?"selected":""}>user</option><option ${u.role=="admin"?"selected":""}>admin</option></select></td><td><button class="btn" data-sv="${u.id}">ذخیره</button></td></tr>`).join("")}</table></div>
- <h3 style="margin-top:24px">آخرین استفاده‌ها</h3><div style="overflow:auto"><table>${lg.map(l=>`<tr><td>${us.find(u=>u.id==l.user_id)?.email||""}</td><td>${T.find(t=>t.id==l.tool)?.n||l.tool}</td><td>${l.provider||""}</td><td>${new Date(l.created_at).toLocaleString("fa-IR")}</td></tr>`).join("")}</table></div></div>`;
- document.querySelectorAll("[data-sv]").forEach(b=>b.onclick=async()=>{const id=b.dataset.sv;const{error}=await sb.from("profiles").update({credits:parseInt($(`[data-cr="${id}"]`).value)||0,role:$(`[data-ro="${id}"]`).value}).eq("id",id);toast(error?"خطا در ذخیره":"ذخیره شد")});reveal(1)}
-
-
-/* ====== chatbot (5 free messages) ====== */
-let chatMsgs=[];const CHAT_LIM=5;
+ const tabs=[["users","👥 کاربران"],["images","🖼️ تصاویر ابزارها"],["settings","⚙️ تنظیمات"],["usage","📊 استفاده"]];
+ $("#view").innerHTML=`<div class="panel"><h2>🛡️ پنل ادمین</h2><div class="cats tabs">${tabs.map(([k,l])=>`<button class="btn ${k==atab?"on":""}" data-t="${k}">${l}</button>`).join("")}</div><div id="at">⏳</div></div>`;
+ document.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{atab=b.dataset.t;admin()});
+ try{await({users:aUsers,images:aImages,settings:aSettings,usage:aUsage})[atab]()}catch(e){$("#at").innerHTML=`<div class="err">${esc(e.message||e)}</div>`}}
+async function aUsers(){const{data:us,error}=await sb.from("profiles").select("*").order("created_at",{ascending:false});if(error)throw error;const now=Date.now(),isP=u=>u.pro_until&&new Date(u.pro_until)>now;
+ $("#at").innerHTML=`<div class="stat"><div class="kv"><small>کاربران</small><b>${fa(us.length,0)}</b></div><div class="kv"><small>اشتراک فعال</small><b>${fa(us.filter(isP).length,0)}</b></div></div><div class="ulist">${us.map(u=>`<div class="uc"><div dir="ltr" class="ue">${esc(u.email||"")}</div><small>${isP(u)?"💎 ویژه تا "+new Date(u.pro_until).toLocaleDateString("fa-IR"):"رایگان"}</small><div class="ur"><label>اعتبار امروز<input type="number" min="0" value="${u.credits}" data-cr="${u.id}"></label><label>نقش<select data-ro="${u.id}"><option ${u.role=="user"?"selected":""}>user</option><option ${u.role=="admin"?"selected":""}>admin</option></select></label></div><div class="ub"><button class="btn" data-sv="${u.id}">ذخیره</button><button class="btn pri" data-p30="${u.id}">+۳۰ روز ویژه</button>${isP(u)?`<button class="btn" data-pc="${u.id}">لغو اشتراک</button>`:""}</div></div>`).join("")}</div>`;
+ const upd=async(id,o,m)=>{const r=await sb.from("profiles").update(o).eq("id",id);toast(r.error?"خطا: "+r.error.message:m);if(!r.error)aUsers()};
+ document.querySelectorAll("[data-sv]").forEach(b=>b.onclick=()=>{const id=b.dataset.sv;upd(id,{credits:parseInt($(`[data-cr="${id}"]`).value)||0,role:$(`[data-ro="${id}"]`).value},"ذخیره شد")});
+ document.querySelectorAll("[data-p30]").forEach(b=>b.onclick=()=>{const id=b.dataset.p30,u=us.find(x=>x.id==id),base=isP(u)?new Date(u.pro_until).getTime():Date.now();upd(id,{pro_until:new Date(base+30*864e5).toISOString(),credits_day:null},"اشتراک ۳۰ روزه فعال شد")});
+ document.querySelectorAll("[data-pc]").forEach(b=>b.onclick=()=>upd(b.dataset.pc,{pro_until:null,credits_day:null},"اشتراک لغو شد"))}
+async function aImages(){$("#at").innerHTML=`<p class="sub" style="text-align:right">برای هر ابزار یک تصویر شاخص آپلود کن؛ خودکار کوچک و بهینه می‌شود.</p><div class="igrid">${T.map(t=>`<div class="ic2"><div class="ph">${IMG[t.id]?`<img src="${IMG[t.id]}" alt="">`:`<span>${t.i}</span>`}</div><small>${t.n}</small><div class="ub"><label class="btn">آپلود<input type="file" accept="image/*" hidden data-up="${t.id}"></label>${IMG[t.id]?`<button class="btn" data-del="${t.id}">حذف</button>`:""}</div></div>`).join("")}</div>`;
+ document.querySelectorAll("[data-up]").forEach(i=>i.onchange=async()=>{const f=i.files[0];if(!f)return;toast("در حال آپلود…");try{await upImg(i.dataset.up,f);toast("آپلود شد ✅");aImages()}catch(e){toast("خطا: "+(e.message||e))}});
+ document.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{const r=await sb.from("tool_images").delete().eq("tool",b.dataset.del);if(r.error)return toast("خطا: "+r.error.message);delete IMG[b.dataset.del];aImages()})}
+async function aSettings(){const SF=[["free_credits","اعتبار AI روزانه (رایگان)"],["free_chat","پیام چت روزانه (رایگان)"],["pro_credits","اعتبار AI روزانه (ویژه)"],["pro_chat","پیام چت روزانه (ویژه)"],["price_toman","قیمت اشتراک یک‌ماهه (تومان)"]];
+ $("#at").innerHTML=`<div class="f">${SF.map(([k,l])=>`<label>${l}<input type="number" min="0" id="s_${k}" value="${esc(SET[k]??"")}"></label>`).join("")}<label class="w">کد نماد اعتماد (اینماد) — بعد از دریافت اینجا بچسبان تا در فوتر نمایش داده شود<textarea id="s_enamad_html" dir="ltr">${esc(SET.enamad_html||"")}</textarea></label></div><button class="btn pri" id="ssv" style="margin-top:14px">ذخیره تنظیمات</button>`;
+ $("#ssv").onclick=async()=>{const rows=[...SF.map(([k])=>({key:k,value:String($("#s_"+k).value||"0")})),{key:"enamad_html",value:$("#s_enamad_html").value}];const r=await sb.from("settings").upsert(rows);toast(r.error?"خطا: "+r.error.message:"ذخیره شد");await loadMeta()}}
+async function aUsage(){const[a,b]=await Promise.all([sb.from("usage_log").select("*").order("created_at",{ascending:false}).limit(60),sb.from("profiles").select("id,email")]);if(a.error)throw a.error;const em=Object.fromEntries((b.data||[]).map(u=>[u.id,u.email]));
+ $("#at").innerHTML=`<div style="overflow:auto"><table>${(a.data||[]).map(l=>`<tr><td dir="ltr">${esc(em[l.user_id]||"")}</td><td>${T.find(t=>t.id==l.tool)?.n||l.tool}</td><td>${l.provider||""}</td><td>${new Date(l.created_at).toLocaleString("fa-IR")}</td></tr>`).join("")||"<tr><td>موردی نیست</td></tr>"}</table></div>`}
+/* ====== chatbot ====== */
+let chatMsgs=[];
 function chat(){document.title="چت‌بات هوشمند | SR5 Tools";
- if(!user){$("#view").innerHTML='<div class="panel"><a href="#/">← بازگشت</a><h2>💬 چت‌بات هوشمند</h2><p style="color:var(--mu);margin:10px 0 18px">برای استفاده از چت‌بات وارد شوید؛ ۵ پیام رایگان دارید.</p><button class="btn pri lg" id="lc">ورود با Google</button></div>';$("#lc").onclick=login;return}
- const adm=profile?.role=="admin";
- const left=()=>adm?"نامحدود (ادمین)":`${fa(Math.max(0,CHAT_LIM-(profile?.chat_used??0)),0)} پیام از ${fa(CHAT_LIM,0)} پیام رایگان باقی مانده`;
- $("#view").innerHTML=`<div class="panel"><a href="#/">← بازگشت</a><h2>💬 چت‌بات هوشمند</h2><p id="cl" style="color:var(--b);font-size:14px"></p><div class="cm" id="cm"></div><div class="cin"><textarea id="ci" rows="1" placeholder="پیامت را بنویس…"></textarea><button class="btn pri" id="cs">ارسال</button></div></div>`;
+ if(!user){$("#view").innerHTML='<div class="panel"><h2>💬 چت‌بات هوشمند</h2><p style="color:var(--mu);margin:10px 0 18px">برای استفاده از چت‌بات وارد شوید.</p><button class="btn pri lg" id="lc">ورود با Google</button></div>';$("#lc").onclick=login;return}
+ const adm=profile?.role=="admin",left=()=>adm?"نامحدود (ادمین)":`${fa(profile?.chat_left??Math.max(0,5-(profile?.chat_used??0)),0)} پیام برای امروز باقی مانده`;
+ $("#view").innerHTML=`<div class="panel chatp"><div class="chh"><h2>💬 چت‌بات هوشمند</h2><span id="cl"></span></div><div class="cm" id="cm"></div><div class="cin"><textarea id="ci" rows="1" placeholder="پیامت را بنویس…"></textarea><button class="btn pri" id="cs">ارسال</button></div></div>`;
  const draw=pend=>{$("#cl").textContent=left();$("#cm").innerHTML=(chatMsgs.length?"":'<div class="b a">سلام! 👋 هر سوالی داری بپرس.</div>')+chatMsgs.map(m=>`<div class="b ${m.role=="user"?"u":"a"}">${esc(m.content)}</div>`).join("")+(pend?'<div class="b a">⏳ در حال نوشتن…</div>':"");$("#cm").scrollTop=1e9};
- const send=async()=>{const el=$("#ci"),txt=el.value.trim();if(!txt)return;if(!adm&&(profile.chat_used??0)>=CHAT_LIM)return toast("سهمیه ۵ پیام رایگان شما تمام شده است");
+ const send=async()=>{const el=$("#ci"),txt=el.value.trim();if(!txt)return;if(!adm&&(profile.chat_left??1)<1)return toast("سهمیه پیام امروز تمام شده؛ فردا شارژ می‌شود یا اشتراک ویژه بگیر");
   chatMsgs.push({role:"user",content:txt});el.value="";draw(true);$("#cs").disabled=true;
   try{const{data,error}=await Promise.race([sb.functions.invoke("ai",{body:{tool:"chat",messages:chatMsgs}}),new Promise((_,rj)=>setTimeout(()=>rj("پاسخی از سرور نیامد؛ دوباره تلاش کن."),70000))]);
    if(error||data?.error){let m=data?.error;try{if(!m&&error.context)m=(await error.context.json()).error}catch(_){}throw m||"خطا در ارتباط با سرور"}
-   chatMsgs.push({role:"assistant",content:data.text});profile.chat_used=data.chat_used}
+   chatMsgs.push({role:"assistant",content:data.text});if(data.chat_left>=0)profile.chat_left=data.chat_left}
   catch(e){chatMsgs.pop();el.value=txt;toast(String(e).slice(0,140))}
   $("#cs").disabled=false;draw(false)};
  $("#cs").onclick=send;$("#ci").onkeydown=e=>{if(e.key=="Enter"&&!e.shiftKey&&!matchMedia("(pointer:coarse)").matches){e.preventDefault();send()}};draw(false)}
-
-function route(){const h=location.hash||"#/";scrollTo(0,0);nav();if(h.startsWith("#/t/"))tool(h.slice(4));else if(h=="#/dash")dash();else if(h=="#/admin")admin();else if(h=="#/chat")chat();else home()}
+/* ====== touch / hover effect ====== */
+document.addEventListener("pointerdown",e=>{const c=e.target.closest(".tc,.cc,.sp,.st,.btn,.plan,.kv");if(!c)return;const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;c.style.setProperty("--mx",x+"px");c.style.setProperty("--my",y+"px");const s=document.createElement("span");s.className="rp";s.style.left=x+"px";s.style.top=y+"px";c.append(s);setTimeout(()=>s.remove(),750);c.classList.add("tch");setTimeout(()=>c.classList.remove("tch"),550)},{passive:true});
+function route(){const h=location.hash||"#/";scrollTo(0,0);nav();if(h.startsWith("#/t/"))tool(h.slice(4));else if(h=="#/dash")dash();else if(h=="#/admin")admin();else if(h=="#/chat")chat();else if(h=="#/about")about();else if(h=="#/pricing")pricing();else home()}
 
 /* ====== scroll effects ====== */
 const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
@@ -176,4 +206,6 @@ function observe(){if(!io)io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.i
 const reveal=()=>observe();
 /* ====== boot ====== */
 addEventListener("hashchange",route);
-(async()=>{await loadProfile();route();sb&&sb.auth.onAuthStateChange(async()=>{await loadProfile()})})();
+(async()=>{await Promise.all([loadProfile(),loadMeta()]);route();sb&&sb.auth.onAuthStateChange(async()=>{await loadProfile()})})();
+
+$("#bk").onclick=()=>history.length>1?history.back():(location.hash="#/");
