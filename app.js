@@ -205,7 +205,16 @@ function count(el){if(el.dataset.c)return;el.dataset.c=1;const n=+el.dataset.n,t
 function observe(){if(!io)io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add("on");io.unobserve(e.target);e.target.querySelectorAll("[data-n]").forEach(count)}),{threshold:.1});document.querySelectorAll(".sr:not(.on)").forEach(e=>io.observe(e))}
 const reveal=()=>observe();
 /* ====== boot ====== */
-addEventListener("hashchange",route);
-(async()=>{await Promise.all([loadProfile(),loadMeta()]);route();sb&&sb.auth.onAuthStateChange(async()=>{await loadProfile()})})();
+const needAuth=h=>/^#\/(dash|admin|chat)$/.test(h||"");
+let loaded=false,readyP=Promise.resolve();
+addEventListener("hashchange",async()=>{if(needAuth(location.hash)&&!loaded){$("#view").innerHTML='<div class="panel">⏳ در حال بارگذاری…</div>';await readyP}route()});
+(async()=>{nav();
+ readyP=Promise.all([loadProfile(),loadMeta()]).then(()=>{loaded=true});
+ if(needAuth(location.hash))$("#view").innerHTML='<div class="panel">⏳ در حال بارگذاری…</div>';else route();
+ await readyP;
+ const h=location.hash||"#/";
+ if(needAuth(h)||h=="#/about"||h=="#/pricing")route();
+ else if(h=="#/"){if(scrollY<80)route();else $("#grid")&&renderGrid()}
+ sb&&sb.auth.onAuthStateChange(async()=>{await loadProfile()})})();
 
 $("#bk").onclick=()=>history.length>1?history.back():(location.hash="#/");
