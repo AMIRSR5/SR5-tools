@@ -4,222 +4,27 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>SR5 Tools | ۳۰ ابزار آنلاین فارسی، ماشین‌حساب و هوش مصنوعی</title>
-<meta name="description" content="SR5 Tools؛ ماشین‌حساب‌های مالی و سلامت، ابزارهای هوش مصنوعی برای تولید محتوا، QR کد، فاکتورساز، رزومه‌ساز و بیشتر. رایگان و فارسی.">
-<meta property="og:title" content="SR5 Tools"><meta property="og:description" content="۳۰ ابزار آنلاین فارسی با هوش مصنوعی"><meta property="og:image" content="assets/logo.png">
-<meta name="theme-color" content="#04080d">
-<link rel="icon" href="assets/logo.png">
+<meta name="description" content="SR5 Tools؛ ماشین‌حساب‌های مالی و سلامت، ابزارهای هوش مصنوعی برای تولید محتوا، QR کد، فاکتورساز، رزومه‌ساز و بیشتر. فارسی، سریع و رایگان.">
+<meta property="og:title" content="SR5 Tools"><meta property="og:description" content="۳۰ ابزار آنلاین فارسی با هوش مصنوعی"><meta property="og:image" content="logo.png"><meta property="og:locale" content="fa_IR">
+<meta name="theme-color" content="#03060b"><meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="logo.png"><link rel="apple-touch-icon" href="logo.png">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SR5 Tools","inLanguage":"fa","applicationCategory":"UtilitiesApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"IRR"}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#04080d;--card:#0b121b;--line:#1c2a3a;--tx:#e8f4ff;--mu:#7f93a8;--a:#7c6bff;--b:#22d3ee;--g:linear-gradient(135deg,#7c6bff,#22d3ee);--p:0}
-*{box-sizing:border-box;margin:0}
-html{scroll-behavior:smooth}
-body{font-family:Vazirmatn,Tahoma,sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden;padding-top:env(safe-area-inset-top,0)}
-body:before{content:"";position:fixed;inset:0;background:radial-gradient(600px 400px at 80% -5%,#7c6bff33,transparent),radial-gradient(500px 400px at 5% 30%,#22d3ee22,transparent);pointer-events:none}
-button,input,select,textarea{font:inherit;color:inherit}
-a{color:var(--b);text-decoration:none}
-/* intro */
-#intro{position:fixed;inset:0;z-index:100;background:#000;display:flex;align-items:center;justify-content:center;transition:opacity .9s}
-#intro video{width:100%;height:100%;object-fit:cover}
-#skip{position:absolute;bottom:calc(24px + env(safe-area-inset-bottom,0));left:24px;background:#0008;border:1px solid #fff3;border-radius:99px;padding:8px 18px;cursor:pointer;backdrop-filter:blur(8px)}
-#bar{position:absolute;bottom:0;left:0;height:3px;background:var(--g);width:0}
-#app{opacity:0;filter:blur(14px);transform:scale(1.04);transition:none}
-body.ready #app{opacity:1;filter:none;transform:none}
-.rv{opacity:0;transform:translateY(40px) scale(.97);filter:blur(8px);transition:all .9s cubic-bezier(.2,.8,.2,1)}
-.rv.on{opacity:1;transform:none;filter:none}
-/* layout */
-header{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:12px 5%;background:#04080dcc;backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-header img{width:40px;height:40px;border-radius:12px;box-shadow:0 0 20px #7c6bff66}
-header b{font-weight:800;letter-spacing:.5px}
-nav{margin-right:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 16px;cursor:pointer;transition:.25s}
-.btn:hover{border-color:var(--b);box-shadow:0 0 18px #22d3ee33}
-.btn.pri{background:var(--g);border:0;color:#04080d;font-weight:800}
-.btn:disabled{opacity:.5;cursor:wait}
-main{max-width:1180px;margin:auto;padding:0 5% 80px;position:relative}
-.hero{text-align:center;padding:64px 0 36px}
-.hero h1{font-size:clamp(30px,6vw,60px);font-weight:800;line-height:1.3;background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{color:var(--mu);margin:14px auto 26px;max-width:560px;line-height:2}
-.srch{max-width:520px;margin:auto;width:100%;padding:14px 20px;border-radius:16px;background:var(--card);border:1px solid var(--line);outline:0}
-.srch:focus,.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--b);box-shadow:0 0 0 3px #22d3ee22}
-.cats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:22px 0}
-.cats .btn.on{background:var(--g);color:#04080d;border:0;font-weight:600}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.tc{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:20px;cursor:pointer;position:relative;overflow:hidden;transition:.3s}
-.tc:hover{transform:translateY(-6px);border-color:#7c6bff88;box-shadow:0 14px 40px #7c6bff22}
-.tc .ic{font-size:30px}.tc h3{font-size:16px;margin:10px 0 6px}.tc p{color:var(--mu);font-size:13px;line-height:1.8}
-.tag{position:absolute;top:14px;left:14px;font-size:11px;padding:3px 9px;border-radius:99px;background:#7c6bff33;color:#b9b0ff}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;margin-top:24px}
-.f{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
-.f label{display:grid;gap:6px;font-size:13px;color:var(--mu)}
-.f input,.f select,.f textarea{background:#060c13;border:1px solid var(--line);border-radius:12px;padding:11px 14px;outline:0;color:var(--tx)}
-.f .w{grid-column:1/-1}.f textarea{min-height:120px;resize:vertical}
-.out{margin-top:20px;display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
-.kv{background:#060c13;border:1px solid var(--line);border-radius:14px;padding:14px}
-.kv small{color:var(--mu);display:block;margin-bottom:4px}.kv b{font-size:19px;color:var(--b)}
-.txt{grid-column:1/-1;white-space:pre-wrap;line-height:2.1;background:#060c13;border:1px solid var(--line);border-radius:14px;padding:18px}
-.err{color:#ff7b8a;grid-column:1/-1}
-table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:9px;border-bottom:1px solid var(--line);text-align:right}
-.sheet{background:#fff;color:#111;border-radius:12px;padding:28px;grid-column:1/-1;line-height:1.9}
-.sheet h2{margin-bottom:6px}.sheet table td,.sheet table th{border-color:#ddd;color:#111}
-.vc{grid-column:1/-1;max-width:400px;aspect-ratio:1.75;border-radius:20px;background:linear-gradient(135deg,#0b1220,#1b1650);border:1px solid #7c6bff88;padding:22px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 0 40px #7c6bff44}
-.toast{position:fixed;bottom:24px;right:50%;transform:translateX(50%);background:#111c;border:1px solid var(--line);padding:12px 22px;border-radius:14px;z-index:200;backdrop-filter:blur(10px)}
-.stat{display:flex;gap:14px;flex-wrap:wrap}.stat .kv{flex:1;min-width:150px}
-footer{text-align:center;color:var(--mu);padding:30px;font-size:13px;border-top:1px solid var(--line)}
-@media print{body *{visibility:hidden}.sheet,.sheet *{visibility:visible}.sheet{position:absolute;inset:0;border-radius:0}}
-@media(max-width:600px){header b{display:none}.hero{padding-top:40px}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important}}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="intro"><video id="vid" src="assets/intro.mp4" muted playsinline preload="auto"></video><button id="skip">رد کردن ›</button><div id="bar"></div></div>
-
+<div class="bg"><i></i><i></i></div>
+<div id="intro"><video id="vid" src="intro.mp4" muted playsinline webkit-playsinline preload="auto"></video><div class="fb"><img src="logo.png" alt=""></div><button id="skip">رد کردن ›</button><div id="bar"></div></div>
 <div id="app">
- <header class="rv" data-at=".55">
-  <img src="assets/logo.png" alt="SR5 Tools"><b>SR5 Tools</b>
-  <nav id="nav"></nav>
- </header>
+ <header class="rv" data-at=".5"><a class="lg" href="#/"><img src="logo.png" alt="SR5 Tools"><b>SR5 Tools</b></a><nav id="nav"></nav></header>
  <main id="view"></main>
- <footer class="rv" data-at=".95">© SR5 Tools — ساخته‌شده با ⚡</footer>
+ <footer>© SR5 Tools — ساخته‌شده با ⚡ و عشق</footer>
 </div>
-
+<nav id="bn"></nav>
+<noscript><p style="padding:40px;text-align:center">برای استفاده از SR5 Tools جاوااسکریپت را فعال کنید.</p></noscript>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
-/* ====== CONFIG: only the public anon key goes here ====== */
-const SUPABASE_URL="https://YOUR-PROJECT.supabase.co", SUPABASE_ANON="YOUR_ANON_KEY";
-const sb=(window.supabase&&!SUPABASE_URL.includes("YOUR-"))?supabase.createClient(SUPABASE_URL,SUPABASE_ANON):null;
-
-/* ====== helpers ====== */
-const $=(s,e=document)=>e.querySelector(s);
-const nz=v=>parseFloat(String(v).replace(/[۰-۹]/g,d=>"۰۱۲۳۴۵۶۷۸۹".indexOf(d)).replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[,٬،\s]/g,"").replace("٫","."))||0;
-const fa=(n,d=2)=>isFinite(n)?Number(n).toLocaleString("fa-IR",{maximumFractionDigits:d}):"—";
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const kv=a=>a.map(([k,v])=>`<div class="kv"><small>${k}</small><b>${v}</b></div>`).join("");
-const toast=m=>{const t=document.createElement("div");t.className="toast";t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),2800)};
-let user=null,profile=null;
-
-/* ====== tools ====== */
-const N=(k,l,d)=>({k,l,t:"number",d}),S=(k,l,d)=>({k,l,t:"text",d}),A=(k,l,d)=>({k,l,t:"textarea",d,w:1}),D=(k,l,d)=>({k,l,t:"date",d}),O=(k,l,o,d)=>({k,l,t:"select",o,d});
-const UNITS={"طول":{"متر":1,"کیلومتر":1000,"سانتی‌متر":.01,"میلی‌متر":.001,"مایل":1609.344,"فوت":.3048,"اینچ":.0254},"وزن":{"کیلوگرم":1,"گرم":.001,"تن":1000,"پوند":.45359237,"اونس":.0283495},"حجم":{"لیتر":1,"میلی‌لیتر":.001,"گالن (آمریکا)":3.785411784,"متر مکعب":1000},"مساحت":{"متر مربع":1,"هکتار":1e4,"کیلومتر مربع":1e6,"فوت مربع":.09290304},"سرعت":{"متر/ثانیه":1,"کیلومتر/ساعت":1/3.6,"مایل/ساعت":.44704},"داده":{"بایت":1,"کیلوبایت":1024,"مگابایت":1048576,"گیگابایت":1073741824}};
-const aiFields={article:[S("topic","موضوع"),O("tone","لحن",["رسمی","دوستانه","تخصصی"]),O("len","طول",["کوتاه (۳۰۰ کلمه)","متوسط (۷۰۰ کلمه)","بلند (۱۲۰۰ کلمه)"])],
-caption:[S("topic","موضوع پست"),O("tone","لحن",["شاد","لوکس","صمیمی","انگیزشی"])],
-ad:[S("product","محصول/خدمت"),S("audience","مخاطب"),O("platform","پلتفرم",["اینستاگرام","تلگرام","پیامک","گوگل ادز"])],
-product:[S("name","نام محصول"),A("features","ویژگی‌ها"),O("tone","لحن",["فروشگاهی","لوکس","ساده"])],
-reels:[S("topic","موضوع"),O("dur","مدت",["۱۵ ثانیه","۳۰ ثانیه","۶۰ ثانیه"]),O("style","سبک",["آموزشی","طنز","داستانی","فروش"])],
-summary:[A("text","متن"),O("len","حجم خلاصه",["خیلی کوتاه","متوسط"])],
-rewrite:[A("text","متن")],
-tone:[A("text","متن"),O("mode","تبدیل به",["رسمی","دوستانه"])],
-resume_ai:[S("name","نام"),S("role","عنوان شغلی"),A("experience","سوابق (خام)"),S("skills","مهارت‌ها")],
-ideas:[S("niche","حوزه فعالیت"),O("platform","پلتفرم",["اینستاگرام","یوتیوب","وبلاگ","لینکدین"])]};
-const T=[
-{id:"age",c:"محاسبات",i:"🎂",n:"محاسبه سن و تاریخ تولد",d:"سن دقیق، روز تا تولد بعدی و تاریخ شمسی",f:[D("b","تاریخ تولد (میلادی)")],
- run:v=>{const b=new Date(v.b),n=new Date();if(isNaN(b))throw"تاریخ را وارد کنید";let y=n.getFullYear()-b.getFullYear(),m=n.getMonth()-b.getMonth(),d=n.getDate()-b.getDate();if(d<0){m--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}if(m<0){y--;m+=12}
- let nx=new Date(n.getFullYear(),b.getMonth(),b.getDate());if(nx<=n)nx.setFullYear(n.getFullYear()+1);const j=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{dateStyle:"long"}).format(b);
- return kv([["سن",`${fa(y)} سال، ${fa(m)} ماه، ${fa(d)} روز`],["تولد شمسی",j],["روز تا تولد بعدی",fa(Math.ceil((nx-n)/864e5))],["مجموع روز زندگی",fa(Math.floor((n-b)/864e5))]])}},
-{id:"bmi",c:"سلامت",i:"⚖️",n:"BMI و وزن ایده‌آل",d:"شاخص توده بدنی و بازه وزن سالم",f:[N("h","قد (cm)",175),N("w","وزن (kg)",70),O("s","جنسیت",["مرد","زن"])],
- run:v=>{const h=nz(v.h)/100,w=nz(v.w);if(!h||!w)throw"قد و وزن را وارد کنید";const b=w/h/h,c=b<18.5?"کم‌وزن":b<25?"طبیعی":b<30?"اضافه‌وزن":"چاقی";const ih=nz(v.h)/2.54-60,dv=(v.s=="مرد"?50:45.5)+2.3*ih;
- return kv([["BMI",fa(b,1)],["وضعیت",c],["بازه وزن سالم",`${fa(18.5*h*h,1)} تا ${fa(24.9*h*h,1)} کیلو`],["وزن ایده‌آل (Devine)",fa(dv,1)+" کیلو"]])}},
-{id:"bmr",c:"سلامت",i:"🔥",n:"کالری و BMR",d:"کالری پایه و نیاز روزانه (Mifflin-St Jeor)",f:[O("s","جنسیت",["مرد","زن"]),N("a","سن",30),N("h","قد (cm)",175),N("w","وزن (kg)",70),O("act","فعالیت",[["1.2","کم‌تحرک"],["1.375","سبک"],["1.55","متوسط"],["1.725","زیاد"]])],
- run:v=>{const b=10*nz(v.w)+6.25*nz(v.h)-5*nz(v.a)+(v.s=="مرد"?5:-161),t=b*nz(v.act);return kv([["BMR",fa(b,0)+" kcal"],["نگهداری وزن",fa(t,0)+" kcal"],["کاهش وزن",fa(t-500,0)+" kcal"],["افزایش وزن",fa(t+400,0)+" kcal"]])}},
-{id:"pct",c:"محاسبات",i:"％",n:"درصد و درصد تغییر",d:"سه حالت محاسبه درصد",f:[O("m","حالت",[["1","X درصد از Y"],["2","X چند درصد Y است"],["3","درصد تغییر از X به Y"]]),N("x","X",20),N("y","Y",500)],
- run:v=>{const x=nz(v.x),y=nz(v.y);if(v.m=="1")return kv([["نتیجه",fa(x*y/100)]]);if(!y)throw"Y صفر است";if(v.m=="2")return kv([["درصد",fa(x/y*100)+"٪"]]);if(!x)throw"X صفر است";const c=(y-x)/Math.abs(x)*100;return kv([["درصد تغییر",fa(c)+"٪"],["تغییر",c>=0?"افزایش":"کاهش"]])}},
-{id:"disc",c:"مالی",i:"🏷️",n:"محاسبه تخفیف",d:"قیمت نهایی و مبلغ صرفه‌جویی",f:[N("p","قیمت اصلی",1000000),N("d","درصد تخفیف",25),N("e","تخفیف دوم (اختیاری)",0)],
- run:v=>{const p=nz(v.p),a=p*(1-nz(v.d)/100),f=a*(1-nz(v.e)/100);return kv([["قیمت نهایی",fa(f,0)],["صرفه‌جویی",fa(p-f,0)],["تخفیف مؤثر",fa((p-f)/p*100)+"٪"]])}},
-{id:"pl",c:"مالی",i:"📈",n:"سود و زیان",d:"حاشیه سود و درصد سود",f:[N("c","قیمت خرید",800000),N("s","قیمت فروش",1000000),N("q","تعداد",1)],
- run:v=>{const c=nz(v.c),s=nz(v.s),q=nz(v.q)||1,p=(s-c)*q;return kv([[p>=0?"سود":"زیان",fa(Math.abs(p),0)],["درصد سود از خرید",fa(c?(s-c)/c*100:0)+"٪"],["حاشیه سود از فروش",fa(s?(s-c)/s*100:0)+"٪"]])}},
-{id:"loan",c:"مالی",i:"🏦",n:"قسط وام",d:"قسط ماهانه، سود کل و جمع بازپرداخت",f:[N("p","مبلغ وام",500000000),N("r","نرخ سالانه (٪)",23),N("m","تعداد ماه",24)],
- run:v=>{const P=nz(v.p),m=nz(v.m),r=nz(v.r)/1200;if(!P||!m)throw"مبلغ و مدت را وارد کنید";const e=r?P*r*Math.pow(1+r,m)/(Math.pow(1+r,m)-1):P/m;return kv([["قسط ماهانه",fa(e,0)],["جمع بازپرداخت",fa(e*m,0)],["کل سود",fa(e*m-P,0)]])}},
-{id:"ci",c:"مالی",i:"🌱",n:"سود مرکب",d:"رشد سرمایه با واریز ماهانه",f:[N("p","سرمایه اولیه",100000000),N("m","واریز ماهانه",5000000),N("r","نرخ سالانه (٪)",20),N("y","سال",5)],
- run:v=>{let b=nz(v.p),r=nz(v.r)/1200,dep=nz(v.m),n=nz(v.y)*12,tot=b;for(let i=0;i<n;i++){b=b*(1+r)+dep;tot+=dep}return kv([["ارزش نهایی",fa(b,0)],["جمع واریزی",fa(tot,0)],["سود حاصل",fa(b-tot,0)]])}},
-{id:"rahn",c:"املاک",i:"🏠",n:"تبدیل رهن و اجاره",d:"تبدیل ودیعه به اجاره ماهانه و برعکس",f:[N("r1","رهن فعلی",500000000),N("e1","اجاره فعلی",10000000),N("r2","رهن جدید",300000000),N("k","نرخ تبدیل سالانه (٪)",24)],
- run:v=>{const dr=nz(v.r1)-nz(v.r2),e2=nz(v.e1)+dr*nz(v.k)/1200;if(e2<0)throw"رهن جدید خیلی بیشتر است؛ اجاره منفی می‌شود";return kv([["اجاره جدید ماهانه",fa(e2,0)],["تغییر رهن",fa(dr,0)],["معادل رهن کامل (اجاره صفر)",fa(nz(v.r1)+nz(v.e1)*1200/nz(v.k),0)]])}},
-{id:"comm",c:"املاک",i:"🤝",n:"کمیسیون املاک",d:"حق‌الزحمه خریدار و فروشنده با ارزش افزوده",f:[N("p","قیمت معامله",10000000000),N("r","نرخ هر طرف (٪)",0.5),N("v","مالیات ارزش افزوده (٪)",10)],
- run:v=>{const c=nz(v.p)*nz(v.r)/100,t=c*(1+nz(v.v)/100);return kv([["کمیسیون هر طرف",fa(c,0)],["با ارزش افزوده (هر طرف)",fa(t,0)],["مجموع دو طرف",fa(t*2,0)]])}},
-...[["article","مقاله‌نویس AI","✍️","مقاله سئو‌شده با ساختار کامل"],["caption","کپشن‌ساز اینستاگرام AI","📸","کپشن و هشتگ آماده"],["ad","تولید متن تبلیغاتی AI","📣","متن‌های فروش اثرگذار"],["product","توضیحات محصول AI","🛍️","توضیح حرفه‌ای برای فروشگاه"],["reels","سناریونویس ریلز AI","🎬","سناریوی صحنه‌به‌صحنه"],["summary","خلاصه‌کننده متن AI","📝","خلاصه و نکات کلیدی"],["rewrite","بازنویسی و اصلاح متن AI","🔁","ویرایش نگارشی و بازنویسی"],["tone","تبدیل متن رسمی/دوستانه AI","🎭","تغییر لحن متن"],["resume_ai","رزومه‌ساز هوشمند AI","📄","متن رزومه حرفه‌ای"],["ideas","تولید عنوان و ایده محتوا AI","💡","۱۰ ایده محتوایی"]].map(([id,n,i,d])=>({id,c:"هوش مصنوعی",i,n,d,ai:1,f:aiFields[id]})),
-{id:"qr",c:"ساخت",i:"🔳",n:"QR Code ساز",d:"ساخت و دانلود QR از متن یا لینک",f:[S("t","متن یا لینک","https://"),N("s","اندازه (px)",256)],
- run:(v,o)=>{if(!v.t)throw"متن را وارد کنید";const w=document.createElement("div");w.className="kv";w.style.cssText="grid-column:1/-1;text-align:center";const q=document.createElement("div");q.style.cssText="display:inline-block;background:#fff;padding:14px;border-radius:12px";w.append(q);new QRCode(q,{text:v.t,width:Math.min(nz(v.s)||256,512),height:Math.min(nz(v.s)||256,512)});const b=document.createElement("button");b.className="btn pri";b.textContent="دانلود PNG";b.style.marginTop="14px";b.onclick=()=>{const c=q.querySelector("canvas");const a=document.createElement("a");a.href=c.toDataURL();a.download="sr5-qr.png";a.click()};w.append(document.createElement("br"),b);return w}},
-{id:"inv",c:"ساخت",i:"🧾",n:"فاکتورساز",d:"فاکتور قابل چاپ و ذخیره PDF",f:[S("se","فروشنده"),S("by","خریدار"),S("no","شماره فاکتور","۱۰۰۱"),A("it","اقلام (هر خط: نام | تعداد | قیمت واحد)","خدمات طراحی | 2 | 5000000\nهاستینگ | 1 | 2000000"),N("tx","مالیات (٪)",10)],pr:1,
- run:v=>{let sum=0;const rows=v.it.split("\n").filter(x=>x.trim()).map((l,i)=>{const [n,q,p]=l.split("|");const t=nz(q)*nz(p);sum+=t;return `<tr><td>${fa(i+1,0)}</td><td>${esc(n)}</td><td>${fa(nz(q))}</td><td>${fa(nz(p),0)}</td><td>${fa(t,0)}</td></tr>`}).join("");const tx=sum*nz(v.tx)/100;
- return `<div class="sheet"><h2>فاکتور فروش — شماره ${esc(v.no)}</h2><p>تاریخ: ${new Intl.DateTimeFormat("fa-IR",{dateStyle:"long"}).format(new Date())}<br>فروشنده: ${esc(v.se)} | خریدار: ${esc(v.by)}</p><table><tr><th>#</th><th>شرح</th><th>تعداد</th><th>قیمت واحد</th><th>جمع</th></tr>${rows}</table><p><br>جمع: ${fa(sum,0)} | مالیات: ${fa(tx,0)}<br><b>قابل پرداخت: ${fa(sum+tx,0)}</b></p></div>`}},
-{id:"cv",c:"ساخت",i:"📑",n:"رزومه PDF ساز",d:"رزومه تمیز و آماده ذخیره PDF",f:[S("n","نام و نام خانوادگی"),S("t","عنوان شغلی"),S("c","تماس (تلفن / ایمیل)"),A("s","درباره من"),S("k","مهارت‌ها (با ویرگول)"),A("e","سوابق (هر خط یک مورد)")],pr:1,
- run:v=>`<div class="sheet"><h2>${esc(v.n)}</h2><b>${esc(v.t)}</b><br><small>${esc(v.c)}</small><hr><h3>درباره من</h3><p>${esc(v.s)}</p><h3>مهارت‌ها</h3><p>${v.k.split(/[,،]/).map(x=>`• ${esc(x.trim())}`).join("&nbsp; ")}</p><h3>سوابق</h3>${v.e.split("\n").filter(x=>x.trim()).map(x=>`<p>▪ ${esc(x)}</p>`).join("")}</div>`},
-{id:"vc",c:"ساخت",i:"💳",n:"کارت ویزیت دیجیتال",d:"کارت زیبا + دانلود فایل مخاطب (vCard)",f:[S("n","نام"),S("t","سمت"),S("p","تلفن"),S("e","ایمیل"),S("w","وب‌سایت")],
- run:v=>{const w=document.createElement("div");w.style.gridColumn="1/-1";w.innerHTML=`<div class="vc"><div><h2>${esc(v.n)}</h2><span style="color:var(--b)">${esc(v.t)}</span></div><div style="font-size:13px;line-height:1.9">📞 ${esc(v.p)}<br>✉️ ${esc(v.e)}<br>🌐 ${esc(v.w)}</div></div>`;const b=document.createElement("button");b.className="btn pri";b.textContent="دانلود vCard";b.style.marginTop="14px";b.onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([`BEGIN:VCARD\nVERSION:3.0\nFN:${v.n}\nTITLE:${v.t}\nTEL:${v.p}\nEMAIL:${v.e}\nURL:${v.w}\nEND:VCARD`],{type:"text/vcard"}));a.download="contact.vcf";a.click()};w.append(b);return w}},
-{id:"unit",c:"ابزار",i:"📐",n:"تبدیل واحد",d:"طول، وزن، حجم، مساحت، سرعت و داده",f:[O("c","دسته",Object.keys(UNITS)),N("x","مقدار",1),S("from","از واحد","متر"),S("to","به واحد","کیلومتر")],unit:1,
- run:v=>{const u=UNITS[v.c];if(!u[v.from]||!u[v.to])throw"واحد را از لیست انتخاب کنید";return kv([["نتیجه",fa(nz(v.x)*u[v.from]/u[v.to],6)+" "+v.to]])}},
-{id:"temp",c:"ابزار",i:"🌡️",n:"تبدیل دما",d:"سانتی‌گراد، فارنهایت و کلوین",f:[N("x","مقدار",25),O("u","واحد",["سانتی‌گراد","فارنهایت","کلوین"])],
- run:v=>{const x=nz(v.x),c=v.u=="سانتی‌گراد"?x:v.u=="فارنهایت"?(x-32)*5/9:x-273.15;return kv([["سانتی‌گراد",fa(c)+"°"],["فارنهایت",fa(c*9/5+32)+"°"],["کلوین",fa(c+273.15)]])}},
-{id:"fuel",c:"خودرو",i:"⛽",n:"محاسبه مصرف سوخت",d:"لیتر در ۱۰۰ کیلومتر و هزینه هر کیلومتر",f:[N("k","مسافت (km)",400),N("l","سوخت مصرفی (لیتر)",32),N("p","قیمت هر لیتر",5000)],
- run:v=>{const k=nz(v.k),l=nz(v.l);if(!k||!l)throw"مقادیر را وارد کنید";return kv([["لیتر در ۱۰۰ کیلومتر",fa(l/k*100)],["کیلومتر بر لیتر",fa(k/l)],["هزینه هر کیلومتر",fa(l*nz(v.p)/k,0)],["هزینه کل",fa(l*nz(v.p),0)]])}},
-{id:"dep",c:"خودرو",i:"🚗",n:"محاسبه افت قیمت خودرو",d:"تخمین ارزش با افت سنی و کارکرد",f:[N("p","قیمت امروز (صفر)",1000000000),N("y","سن خودرو (سال)",3),N("k","کارکرد (km)",60000),N("r","افت سالانه (٪)",8)],
- run:v=>{const p=nz(v.p),a=p*Math.pow(1-nz(v.r)/100,nz(v.y)),km=Math.min(nz(v.k)/10000*.01,.4),e=a*(1-km);return kv([["ارزش تخمینی",fa(e,0)],["افت کل",fa(p-e,0)],["درصد افت",fa((p-e)/p*100)+"٪"]])}},
-{id:"wc",c:"ابزار",i:"🔤",n:"شمارش کلمات و کاراکتر",d:"کلمه، کاراکتر، جمله و زمان مطالعه",f:[A("t","متن")],live:1,
- run:v=>{const t=v.t,w=(t.trim().match(/\S+/g)||[]).length;return kv([["کلمه",fa(w,0)],["کاراکتر",fa(t.length,0)],["بدون فاصله",fa(t.replace(/\s/g,"").length,0)],["جمله",fa((t.match(/[.!؟?!]+/g)||[]).length,0)],["خط",fa(t?t.split("\n").length:0,0)],["زمان مطالعه",fa(Math.ceil(w/200),0)+" دقیقه"]])}},
-{id:"pw",c:"ابزار",i:"🔐",n:"رمزساز امن",d:"رمز تصادفی قوی با crypto مرورگر",f:[N("l","طول",16),O("o","شامل",[["a","حروف+عدد+نماد"],["b","حروف+عدد"],["c","فقط عدد"]])],
- run:v=>{const L=Math.min(Math.max(nz(v.l)||16,4),128),cs={a:"abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%^&*-_?",b:"abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789",c:"0123456789"}[v.o],a=new Uint32Array(L);crypto.getRandomValues(a);const p=[...a].map(x=>cs[x%cs.length]).join("");const bits=Math.log2(cs.length)*L;
- return `<div class="kv" style="grid-column:1/-1"><small>رمز شما (برای کپی کلیک کنید)</small><b dir="ltr" style="cursor:pointer;word-break:break-all;display:block;text-align:left" onclick="navigator.clipboard.writeText(this.textContent);toast('کپی شد')">${esc(p)}</b><small style="margin-top:8px">قدرت: ${fa(bits,0)} بیت — ${bits>80?"عالی":bits>50?"خوب":"ضعیف"}</small></div>`}}
-];
-const CATS=["همه",...new Set(T.map(t=>t.c))];
-
-/* ====== views ====== */
-let cat="همه",q="";
-function nav(){const n=$("#nav");n.innerHTML=`<a class="btn" href="#/">ابزارها</a>`+(user?`<a class="btn" href="#/dash">⚡ ${fa(profile?.credits??0,0)} اعتبار</a>${profile?.role=="admin"?'<a class="btn" href="#/admin">پنل ادمین</a>':""}<button class="btn" id="lo">خروج</button>`:`<button class="btn pri" id="li">ورود با Google</button>`);
- $("#li")&&($("#li").onclick=login);$("#lo")&&($("#lo").onclick=async()=>{await sb.auth.signOut();location.hash="#/"})}
-async function login(){if(!sb)return toast("ابتدا Supabase را در index.html تنظیم کنید");await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}})}
-async function loadProfile(){if(!sb)return;const{data:{session}}=await sb.auth.getSession();user=session?.user||null;profile=null;if(user){const{data}=await sb.from("profiles").select("*").eq("id",user.id).single();profile=data}nav()}
-
-function home(){document.title="SR5 Tools | ۳۰ ابزار آنلاین فارسی";
- const list=T.filter(t=>(cat=="همه"||t.c==cat)&&(t.n+t.d).includes(q));
- $("#view").innerHTML=`<section class="hero rv" data-at=".7"><h1>۳۰ ابزار هوشمند،<br>در یک جا</h1><p>ماشین‌حساب‌های مالی و سلامت، ابزارهای ساخت و هوش مصنوعی فارسی — سریع، امن و رایگان. هر کاربر جدید ۳ اعتبار هدیه می‌گیرد.</p><input class="srch" id="q" placeholder="جستجوی ابزار…" value="${esc(q)}"></section>
- <div class="cats rv" data-at=".8">${CATS.map(c=>`<button class="btn ${c==cat?"on":""}" data-c="${c}">${c}</button>`).join("")}</div>
- <div class="grid rv" data-at=".88">${list.map(t=>`<div class="tc" data-id="${t.id}">${t.ai?'<span class="tag">AI · ۱ اعتبار</span>':""}<div class="ic">${t.i}</div><h3>${t.n}</h3><p>${t.d}</p></div>`).join("")||"<p>چیزی پیدا نشد</p>"}</div>`;
- $("#q").oninput=e=>{q=e.target.value;const p=e.target.selectionStart;home();$("#q").focus();$("#q").setSelectionRange(p,p)};
- document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{cat=b.dataset.c;home()});
- document.querySelectorAll(".tc").forEach(c=>c.onclick=()=>location.hash="#/t/"+c.dataset.id);reveal(1)}
-
-function field(f){const id="f_"+f.k;let el;if(f.t=="select")el=`<select id="${id}">${f.o.map(o=>Array.isArray(o)?`<option value="${o[0]}">${o[1]}</option>`:`<option>${o}</option>`).join("")}</select>`;
- else if(f.t=="textarea")el=`<textarea id="${id}">${esc(f.d??"")}</textarea>`;else el=`<input id="${id}" type="${f.t=="date"?"date":"text"}" inputmode="${f.t=="number"?"decimal":"text"}" value="${esc(f.d??"")}" ${f.k=="from"||f.k=="to"?'list="ul"':""}>`;
- return `<label class="${f.w?"w":""}">${f.l}${el}</label>`}
-function tool(id){const t=T.find(x=>x.id==id);if(!t)return location.hash="#/";document.title=t.n+" | SR5 Tools";
- $("#view").innerHTML=`<div class="panel"><a href="#/">← همه ابزارها</a><h2 style="margin:10px 0 4px">${t.i} ${t.n}</h2><p style="color:var(--mu);margin-bottom:18px">${t.d}${t.ai?" — هر اجرای موفق ۱ اعتبار مصرف می‌کند.":""}</p><div class="f">${t.f.map(field).join("")}${t.unit?`<datalist id="ul">${Object.keys(UNITS[Object.keys(UNITS)[0]]).map(u=>`<option>${u}</option>`).join("")}</datalist>`:""}</div><div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" id="go">${t.ai?"تولید با هوش مصنوعی":"محاسبه"}</button>${t.pr?'<button class="btn" id="pr">چاپ / ذخیره PDF</button>':""}</div><div class="out" id="out"></div></div>`;
- const vals=()=>Object.fromEntries(t.f.map(f=>[f.k,$("#f_"+f.k).value]));const out=$("#out");
- if(t.unit){const c=$("#f_c");c.onchange=()=>{$("#ul").innerHTML=Object.keys(UNITS[c.value]).map(u=>`<option>${u}</option>`).join("");const k=Object.keys(UNITS[c.value]);$("#f_from").value=k[0];$("#f_to").value=k[1]}}
- const show=r=>{out.innerHTML="";typeof r=="string"?out.innerHTML=r:out.append(r)};
- const exec=async()=>{try{if(t.ai){if(!user)return(toast("برای استفاده از ابزارهای AI وارد شوید"),login());if(profile.role!="admin"&&profile.credits<1)throw"اعتبار شما تمام شده است.";
-   const v=vals();if(!Object.values(v)[0].trim())throw"فیلد اول را پر کنید";$("#go").disabled=true;out.innerHTML='<div class="txt">⏳ در حال تولید…</div>';
-   const{data,error}=await sb.functions.invoke("ai",{body:{tool:t.id,fields:v}});$("#go").disabled=false;if(error||data?.error){let m=data?.error;try{if(!m&&error.context)m=(await error.context.json()).error}catch(_){}throw m||"خطا در ارتباط با سرور"}
-   out.innerHTML=`<div class="txt" id="aiout">${esc(data.text)}</div><div style="grid-column:1/-1;display:flex;gap:8px"><button class="btn" onclick="navigator.clipboard.writeText($('#aiout').textContent);toast('کپی شد')">کپی</button></div>`;profile.credits=data.credits;nav()}
-  else show(t.run(vals()))}catch(e){$("#go").disabled=false;out.innerHTML=`<div class="err">${esc(e)}</div>`}};
- $("#go").onclick=exec;$("#pr")&&($("#pr").onclick=async()=>{await exec();setTimeout(()=>print(),200)});if(t.live)$("#f_t").oninput=exec;reveal(1)}
-
-async function dash(){if(!user){location.hash="#/";return login()}
- const{data:log}=await sb.from("usage_log").select("*").eq("user_id",user.id).order("created_at",{ascending:false}).limit(30);
- $("#view").innerHTML=`<div class="panel"><h2>داشبورد</h2><div class="stat" style="margin:16px 0"><div class="kv"><small>اعتبار باقی‌مانده</small><b>${fa(profile.credits,0)}</b></div><div class="kv"><small>ایمیل</small><b style="font-size:14px">${esc(user.email)}</b></div><div class="kv"><small>مجموع استفاده</small><b>${fa(log.length,0)}</b></div></div><h3>تاریخچه استفاده</h3><table>${log.map(l=>`<tr><td>${T.find(t=>t.id==l.tool)?.n||l.tool}</td><td>${l.provider||""}</td><td>${new Date(l.created_at).toLocaleString("fa-IR")}</td></tr>`).join("")||"<tr><td>هنوز استفاده‌ای نداشته‌اید</td></tr>"}</table></div>`;reveal(1)}
-
-async function admin(){if(profile?.role!="admin"){location.hash="#/";return}
- const[{data:us},{data:lg}]=await Promise.all([sb.from("profiles").select("*").order("created_at",{ascending:false}),sb.from("usage_log").select("*").order("created_at",{ascending:false}).limit(50)]);
- $("#view").innerHTML=`<div class="panel"><h2>🛡️ پنل ادمین</h2><div class="stat" style="margin:16px 0"><div class="kv"><small>کاربران</small><b>${fa(us.length,0)}</b></div><div class="kv"><small>مجموع اعتبار کاربران</small><b>${fa(us.reduce((a,u)=>a+u.credits,0),0)}</b></div><div class="kv"><small>اجراهای اخیر</small><b>${fa(lg.length,0)}</b></div></div>
- <h3>کاربران</h3><div style="overflow:auto"><table><tr><th>ایمیل</th><th>اعتبار</th><th>نقش</th><th></th></tr>${us.map(u=>`<tr><td dir="ltr">${esc(u.email)}</td><td><input type="number" value="${u.credits}" min="0" style="width:80px;background:#060c13;border:1px solid var(--line);border-radius:8px;padding:6px;color:var(--tx)" data-cr="${u.id}"></td><td><select data-ro="${u.id}" style="background:#060c13;border:1px solid var(--line);border-radius:8px;padding:6px;color:var(--tx)"><option ${u.role=="user"?"selected":""}>user</option><option ${u.role=="admin"?"selected":""}>admin</option></select></td><td><button class="btn" data-sv="${u.id}">ذخیره</button></td></tr>`).join("")}</table></div>
- <h3 style="margin-top:24px">آخرین استفاده‌ها</h3><div style="overflow:auto"><table>${lg.map(l=>`<tr><td>${us.find(u=>u.id==l.user_id)?.email||""}</td><td>${T.find(t=>t.id==l.tool)?.n||l.tool}</td><td>${l.provider||""}</td><td>${new Date(l.created_at).toLocaleString("fa-IR")}</td></tr>`).join("")}</table></div></div>`;
- document.querySelectorAll("[data-sv]").forEach(b=>b.onclick=async()=>{const id=b.dataset.sv;const{error}=await sb.from("profiles").update({credits:parseInt($(`[data-cr="${id}"]`).value)||0,role:$(`[data-ro="${id}"]`).value}).eq("id",id);toast(error?"خطا در ذخیره":"ذخیره شد")});reveal(1)}
-
-function route(){const h=location.hash||"#/";scrollTo(0,0);if(h.startsWith("#/t/"))tool(h.slice(4));else if(h=="#/dash")dash();else if(h=="#/admin")admin();else home()}
-
-/* ====== intro video + progressive reveal ====== */
-const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
-function reveal(p){document.querySelectorAll(".rv:not(.on)").forEach(e=>{if(p>=(+e.dataset.at||0))e.classList.add("on")})}
-const vid=$("#vid"),intro=$("#intro");let done=false;
-function finish(){if(done)return;done=true;document.body.classList.add("ready");document.querySelectorAll(".rv").forEach(e=>e.classList.add("on"));intro.style.opacity=0;intro.style.pointerEvents="none";setTimeout(()=>intro.remove(),1000)}
-function tick(){if(done)return;const p=vid.duration?vid.currentTime/vid.duration:0;$("#bar").style.width=p*100+"%";const s=ease((p-.4)/.55);
- intro.style.opacity=1-ease((p-.6)/.4);const a=$("#app");a.style.opacity=s;a.style.filter=`blur(${14*(1-s)}px)`;a.style.transform=`scale(${1.04-.04*s})`;reveal(p);requestAnimationFrame(tick)}
-$("#skip").onclick=finish;vid.addEventListener("ended",finish);vid.addEventListener("error",finish);
-vid.play().then(()=>requestAnimationFrame(tick)).catch(()=>{$("#skip").textContent="ورود به سایت ›";vid.controls=false;setTimeout(finish,4000)});
-
-/* ====== boot ====== */
-addEventListener("hashchange",route);
-(async()=>{await loadProfile();route();sb&&sb.auth.onAuthStateChange(async()=>{await loadProfile()})})();
-</script>
+<script src="app.js"></script>
 </body>
 </html>
