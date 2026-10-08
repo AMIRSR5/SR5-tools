@@ -131,7 +131,7 @@ function tool(id){const t=T.find(x=>x.id==id);if(!t)return location.hash="#/";do
  const show=r=>{out.innerHTML="";typeof r=="string"?out.innerHTML=r:out.append(r)};
  const exec=async()=>{try{if(t.ai){if(!user)return(toast("برای استفاده از ابزارهای AI وارد شوید"),login());if(!profile)throw"پروفایل هنوز ساخته نشده؛ یک‌بار خروج و ورود دوباره بزنید.";if(profile.role!="admin"&&profile.credits<1)throw"اعتبار شما تمام شده است.";
    const v=vals();if(!Object.values(v)[0].trim())throw"فیلد اول را پر کنید";$("#go").disabled=true;out.innerHTML='<div class="txt">⏳ در حال تولید…</div>';
-   const{data,error}=await sb.functions.invoke("ai",{body:{tool:t.id,fields:v}});$("#go").disabled=false;if(error||data?.error){let m=data?.error;try{if(!m&&error.context)m=(await error.context.json()).error}catch(_){}throw m||"خطا در ارتباط با سرور"}
+   const{data,error}=await Promise.race([sb.functions.invoke("ai",{body:{tool:t.id,fields:v}}),new Promise((_,rj)=>setTimeout(()=>rj("پاسخی از سرور نیامد (۷۰ ثانیه). اینترنت را چک کن و دوباره تلاش کن؛ اعتباری کم نشد."),70000))]);$("#go").disabled=false;if(error||data?.error){let m=data?.error;try{if(!m&&error.context)m=(await error.context.json()).error}catch(_){}throw m||"خطا در ارتباط با سرور"}
    out.innerHTML=`<div class="txt" id="aiout">${esc(data.text)}</div><div style="grid-column:1/-1;display:flex;gap:8px"><button class="btn" onclick="navigator.clipboard.writeText($('#aiout').textContent);toast('کپی شد')">کپی</button></div>`;profile.credits=data.credits;nav()}
   else show(t.run(vals()))}catch(e){$("#go").disabled=false;out.innerHTML=`<div class="err">${esc(e)}</div>`}};
  $("#go").onclick=exec;$("#pr")&&($("#pr").onclick=async()=>{await exec();setTimeout(()=>print(),200)});if(t.live)$("#f_t").oninput=exec;reveal(1)}
