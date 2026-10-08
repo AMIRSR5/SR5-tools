@@ -175,3 +175,11 @@ footer p{margin:4px 0}.fl{display:flex;gap:16px;justify-content:center;flex-wrap
  .tc .cv{width:calc(100% + 32px);height:84px;margin:-16px -16px 10px}
  .h2{margin-top:40px}
 }
+
+/* v3.1 fixes */
+.fl .btn{padding:10px 20px;font-size:14px;border-radius:14px;background:#7c6bff22;border-color:#7c6bff66;color:var(--tx)}
+.fl .btn:hover{background:#7c6bff44}
+.su{display:inline-block;margin-top:6px;padding:6px 14px;border:1px solid var(--line2);border-radius:99px}
+header{background:#03060bf5}
+#bn{background:#0a121d}
+footer{padding-bottom:130px}
