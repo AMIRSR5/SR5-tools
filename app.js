@@ -1,4 +1,3 @@
-
 /* ====== CONFIG: only the public anon key goes here ====== */
 const SUPABASE_URL="https://fuevgplbxulbvajaqncd.supabase.co", SUPABASE_ANON="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1ZXZncGxieHVsYnZhamFxbmNkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzOTk3MTQsImV4cCI6MjEwNjk3NTcxNH0.eoauwiOCtIaumlfN3UMrZNNCI5J6awxXqK2AetshcuE";
 const sb=(window.supabase&&true)?supabase.createClient(SUPABASE_URL,SUPABASE_ANON):null;
@@ -91,7 +90,12 @@ function nav(){const h=location.hash||"#/",on=p=>h==p?"on":"";const n=$("#nav");
  $("#bn").innerHTML=`<a href="#/" class="${h=="#/"||h.startsWith("#/t/")?"on":""}"><span>🧰</span>ابزارها</a><a href="#/chat" class="${on("#/chat")}"><span>💬</span>چت</a><a href="#/pricing" class="${on("#/pricing")}"><span>💎</span>اشتراک</a>`+(user?`<a href="#/dash" class="${on("#/dash")}"><span>⚡</span>${fa(profile?.credits??0,0)}</a>`+(profile?.role=="admin"?`<a href="#/admin" class="${on("#/admin")}"><span>🛡️</span>ادمین</a>`:""):`<button id="li2"><span>🔑</span>ورود</button>`);
  $("#bk").style.display=(h=="#/"||h=="")?"none":"inline-flex";
  for(const i of["li","li2"])$("#"+i)&&($("#"+i).onclick=login);$("#lo")&&($("#lo").onclick=logout)}
-async function login(){if(!sb)return toast("ابتدا Supabase را در index.html تنظیم کنید");await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}})}
+async function webLogin(){await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}})}
+async function login(){if(!sb)return toast("ابتدا Supabase را در index.html تنظیم کنید");
+ if(window.SR5Native){if(window._ngl)return;window._ngl=1;toast("در حال ورود…");setTimeout(()=>{window._ngl=0},60000);window.SR5Native.signInWithGoogle();return}
+ await webLogin()}
+window.onNativeGoogleResult=async(token,nonce)=>{window._ngl=0;try{const{error}=await sb.auth.signInWithIdToken({provider:"google",token,nonce});if(error)throw error;await loadProfile();toast("وارد شدید ✅");route()}catch(e){toast("خطا در ورود: "+(e.message||e))}};
+window.onNativeGoogleError=t=>{window._ngl=0;if(/CANCEL/i.test(String(t)))return;webLogin()};
 async function loadProfile(){if(!sb)return;try{const{data:{session}}=await sb.auth.getSession();user=session?.user||null;profile=null;if(user){const{data}=await sb.from("profiles").select("*").eq("id",user.id).single();const{data:q}=await sb.rpc("my_quota");profile=data?{...data,...(q||{})}:null}}catch(e){}nav()}
 const CD={"محاسبات":["🧮","سن، درصد، تخفیف و محاسبات روزمره"],"سلامت":["💪","BMI، کالری و وزن ایده‌آل"],"مالی":["💰","وام، سود مرکب، سود و زیان"],"املاک":["🏠","تبدیل رهن و اجاره و کمیسیون"],"هوش مصنوعی":["🤖","مقاله، کپشن، ریلز، رزومه و بیشتر"],"ساخت":["🛠️","QR، فاکتور، رزومه PDF، کارت ویزیت"],"ابزار":["⚙️","تبدیل واحد و دما، شمارش کلمات، رمزساز"],"خودرو":["🚗","مصرف سوخت و افت قیمت"]};
 function renderGrid(){const list=T.filter(t=>(cat=="همه"||t.c==cat)&&(t.n+t.d).includes(q));
