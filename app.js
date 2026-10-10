@@ -87,7 +87,7 @@ let IMG={},SET={};
 const sn=(k,d)=>{const v=parseInt(SET[k]);return isNaN(v)?d:v};
 const ti=t=>IMG[t.id]?`<img class="cv" src="${IMG[t.id]}" alt="${esc(t.n)}" loading="lazy">`:`<div class="ic">${t.i}</div>`;
 async function loadMeta(){if(!sb)return;try{const[a,b]=await Promise.all([sb.from("tool_images").select("*"),sb.from("settings").select("*")]);IMG=Object.fromEntries((a.data||[]).map(r=>[r.tool,r.url]));SET=Object.fromEntries((b.data||[]).map(r=>[r.key,r.value]))}catch(_){}
- const e=$("#enamad");if(e)e.innerHTML=SET.enamad_html||""}
+ const e=$("#enamad");if(e&&SET.enamad_html)e.innerHTML=SET.enamad_html}
 async function logout(){try{await Promise.race([sb.auth.signOut({scope:"local"}),new Promise(r=>setTimeout(r,2000))])}catch(_){}
  try{Object.keys(localStorage).filter(k=>k.startsWith("sb-")).forEach(k=>localStorage.removeItem(k))}catch(_){}
  user=profile=null;location.hash="#/";location.reload()}
