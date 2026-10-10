@@ -91,9 +91,16 @@ async function loadMeta(){if(!sb)return;try{const[a,b]=await Promise.all([sb.fro
 async function logout(){try{await Promise.race([sb.auth.signOut({scope:"local"}),new Promise(r=>setTimeout(r,2000))])}catch(_){}
  try{Object.keys(localStorage).filter(k=>k.startsWith("sb-")).forEach(k=>localStorage.removeItem(k))}catch(_){}
  user=profile=null;location.hash="#/";location.reload()}
+const IC={
+tools:'<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg>',
+chat:'<svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></svg>',
+gem:'<svg viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20M9 3l3 18M15 3l-3 18"/></svg>',
+bolt:'<svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>',
+shield:'<svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+login:'<svg viewBox="0 0 24 24"><path d="M15 3h5a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-5"/><path d="M10 17l5-5-5-5M15 12H3"/></svg>'};
 function nav(){const h=location.hash||"#/",on=p=>h==p?"on":"";const n=$("#nav");
  n.innerHTML=`<a class="btn hide-m" href="#/chat">💬 چت‌بات</a><a class="btn hide-m" href="#/pricing">💎 اشتراک</a><a class="btn hide-m" href="#/about">درباره ما</a>`+(user?`<a class="btn hide-m" href="#/dash">⚡ ${fa(profile?.credits??0,0)} اعتبار</a>${profile?.role=="admin"?'<a class="btn hide-m" href="#/admin">🛡️ ادمین</a>':""}<button class="btn hide-m" id="lo">خروج</button>`:`<button class="btn pri" id="li">ورود با Google</button>`);
- $("#bn").innerHTML=`<a href="#/" class="${h=="#/"||h.startsWith("#/t/")?"on":""}"><span>🧰</span>ابزارها</a><a href="#/chat" class="${on("#/chat")}"><span>💬</span>چت</a><a href="#/pricing" class="${on("#/pricing")}"><span>💎</span>اشتراک</a>`+(user?`<a href="#/dash" class="${on("#/dash")}"><span>⚡</span>${fa(profile?.credits??0,0)}</a>`+(profile?.role=="admin"?`<a href="#/admin" class="${on("#/admin")}"><span>🛡️</span>ادمین</a>`:""):`<button id="li2"><span>🔑</span>ورود</button>`);
+ $("#bn").innerHTML=`<a href="#/" class="${h=="#/"||h.startsWith("#/t/")?"on":""}"><span class="ni">${IC.tools}</span>ابزارها</a><a href="#/chat" class="${on("#/chat")}"><span class="ni">${IC.chat}</span>چت</a><a href="#/pricing" class="${on("#/pricing")}"><span class="ni">${IC.gem}</span>اشتراک</a>`+(user?`<a href="#/dash" class="${on("#/dash")}"><span class="ni">${IC.bolt}</span>${fa(profile?.credits??0,0)}</a>`+(profile?.role=="admin"?`<a href="#/admin" class="${on("#/admin")}"><span class="ni">${IC.shield}</span>ادمین</a>`:""):`<button id="li2"><span class="ni">${IC.login}</span>ورود</button>`);
  $("#bk").style.display=(h=="#/"||h=="")?"none":"inline-flex";
  for(const i of["li","li2"])$("#"+i)&&($("#"+i).onclick=login);$("#lo")&&($("#lo").onclick=logout)}
 async function webLogin(){await sb.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.origin+location.pathname}})}

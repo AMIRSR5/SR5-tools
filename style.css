@@ -205,3 +205,18 @@ footer{padding-bottom:130px}
 .sl{display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;font-size:12px;max-width:900px;margin:0 auto 16px;padding:0 5%}
 
 #enamad img{max-height:96px;width:auto;border-radius:8px}
+
+/* v4: bottom nav icons + blurred base + hide footer tool list */
+.sl{display:none!important}
+#bn .ni{display:grid;place-items:center;width:46px;height:30px;border-radius:15px;font-size:0;transition:.25s}
+#bn .ni svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:768px){
+ #bn{z-index:41;background:#0a121df5;border-color:#ffffff22;box-shadow:0 10px 30px #000c}
+ #bn a,#bn button{gap:3px;background:none}
+ #bn .on{background:none;color:var(--tx)}
+ #bn .on .ni{background:linear-gradient(135deg,#7c6bff66,#22d3ee33);color:#9ee7ff;box-shadow:0 0 18px #7c6bff66}
+ body::after{content:"";position:fixed;left:0;right:0;bottom:0;height:calc(120px + env(safe-area-inset-bottom,0px));z-index:40;pointer-events:none;
+  background:linear-gradient(to top,#03060b 40%,#03060bd9 65%,#03060b00);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  -webkit-mask-image:linear-gradient(to top,#000 65%,transparent);mask-image:linear-gradient(to top,#000 65%,transparent)}
+}
