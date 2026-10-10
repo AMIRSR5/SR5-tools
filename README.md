@@ -1,12 +1,8 @@
 # SR5 Tools
-
-همه فایل‌ها در یک پوشه‌اند و بدون زیرپوشه روی GitHub آپلود می‌شوند.
-
-- index.html, style.css, app.js : خود سایت
-- logo.png, intro.mp4 : لوگو و ویدیوی ورودی
-- schema.sql : کد دیتابیس (در Supabase > SQL Editor اجرا شود)
-- ai-function.ts : کد Edge Function با نام ai (در Supabase > Edge Functions > Via Editor)
-
-آدرس و کلید anon پروژه از قبل داخل app.js گذاشته شده است.
-کلیدهای Groq / Mistral / OpenRouter فقط در Supabase > Edge Functions > Secrets با همین نام‌ها ذخیره شوند:
-GROQ_API_KEY, MISTRAL_API_KEY, OPENROUTER_API_KEY
+فایل‌ها (همه در یک پوشه):
+- index.html, style.css, app.js : سایت
+- logo.png : لوگو؛ sf-001..090.webp : فریم‌های انیمیشن اسکرول (intro.mp4 دیگر لازم نیست)
+- update.sql : برای دیتابیس موجود در Supabase یک بار اجرا شود
+- schema.sql : نصب کامل از صفر (فقط برای پروژه جدید)
+- ai-function.ts : کد Edge Function با نام ai
+- manifest.webmanifest, sw.js, icon-*.png, apple-touch-icon.png : نصب به‌صورت اپلیکیشن (PWA)

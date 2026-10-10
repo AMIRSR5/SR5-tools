@@ -23,7 +23,13 @@ summary:[A("text","متن"),O("len","حجم خلاصه",["خیلی کوتاه","
 rewrite:[A("text","متن")],
 tone:[A("text","متن"),O("mode","تبدیل به",["رسمی","دوستانه"])],
 resume_ai:[S("name","نام"),S("role","عنوان شغلی"),A("experience","سوابق (خام)"),S("skills","مهارت‌ها")],
-ideas:[S("niche","حوزه فعالیت"),O("platform","پلتفرم",["اینستاگرام","یوتیوب","وبلاگ","لینکدین"])]};
+ideas:[S("niche","حوزه فعالیت"),O("platform","پلتفرم",["اینستاگرام","یوتیوب","وبلاگ","لینکدین"])],
+translate:[A("text","متن"),O("dir","جهت ترجمه",["فارسی به انگلیسی","انگلیسی به فارسی"]),O("tone","لحن",["طبیعی","رسمی"])],
+email:[S("purpose","موضوع / هدف نامه"),O("type","نوع",["ایمیل کاری","نامه اداری","درخواست","عذرخواهی"]),O("tone","لحن",["رسمی","دوستانه"])],
+hashtag:[S("topic","موضوع پست"),O("platform","پلتفرم",["اینستاگرام","توییتر / X","لینکدین"])],
+slogan:[S("business","نوع کسب‌وکار"),A("about","ویژگی‌ها و مخاطب"),O("kind","نوع",["شعار تبلیغاتی","نام برند"])],
+bio:[S("job","شغل / حوزه"),A("about","درباره خودت"),O("style","سبک",["رسمی","خلاقانه","کوتاه"])],
+prompt:[S("goal","هدفت چیست؟"),O("target","برای",["ChatGPT (متن)","تولید تصویر","برنامه‌نویسی"]),A("details","جزئیات بیشتر")]};
 const T=[
 {id:"age",c:"محاسبات",i:"🎂",n:"محاسبه سن و تاریخ تولد",d:"سن دقیق، روز تا تولد بعدی و تاریخ شمسی",f:[D("b","تاریخ تولد (میلادی)")],
  run:v=>{const b=new Date(v.b),n=new Date();if(isNaN(b))throw"تاریخ را وارد کنید";let y=n.getFullYear()-b.getFullYear(),m=n.getMonth()-b.getMonth(),d=n.getDate()-b.getDate();if(d<0){m--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}if(m<0){y--;m+=12}
@@ -48,7 +54,7 @@ const T=[
  run:v=>{const dr=nz(v.r1)-nz(v.r2),e2=nz(v.e1)+dr*nz(v.k)/1200;if(e2<0)throw"رهن جدید خیلی بیشتر است؛ اجاره منفی می‌شود";return kv([["اجاره جدید ماهانه",fa(e2,0)],["تغییر رهن",fa(dr,0)],["معادل رهن کامل (اجاره صفر)",fa(nz(v.r1)+nz(v.e1)*1200/nz(v.k),0)]])}},
 {id:"comm",c:"املاک",i:"🤝",n:"کمیسیون املاک",d:"حق‌الزحمه خریدار و فروشنده با ارزش افزوده",f:[N("p","قیمت معامله",10000000000),N("r","نرخ هر طرف (٪)",0.5),N("v","مالیات ارزش افزوده (٪)",10)],
  run:v=>{const c=nz(v.p)*nz(v.r)/100,t=c*(1+nz(v.v)/100);return kv([["کمیسیون هر طرف",fa(c,0)],["با ارزش افزوده (هر طرف)",fa(t,0)],["مجموع دو طرف",fa(t*2,0)]])}},
-...[["article","مقاله‌نویس AI","✍️","مقاله سئو‌شده با ساختار کامل"],["caption","کپشن‌ساز اینستاگرام AI","📸","کپشن و هشتگ آماده"],["ad","تولید متن تبلیغاتی AI","📣","متن‌های فروش اثرگذار"],["product","توضیحات محصول AI","🛍️","توضیح حرفه‌ای برای فروشگاه"],["reels","سناریونویس ریلز AI","🎬","سناریوی صحنه‌به‌صحنه"],["summary","خلاصه‌کننده متن AI","📝","خلاصه و نکات کلیدی"],["rewrite","بازنویسی و اصلاح متن AI","🔁","ویرایش نگارشی و بازنویسی"],["tone","تبدیل متن رسمی/دوستانه AI","🎭","تغییر لحن متن"],["resume_ai","رزومه‌ساز هوشمند AI","📄","متن رزومه حرفه‌ای"],["ideas","تولید عنوان و ایده محتوا AI","💡","۱۰ ایده محتوایی"]].map(([id,n,i,d])=>({id,c:"هوش مصنوعی",i,n,d,ai:1,f:aiFields[id]})),
+...[["article","مقاله‌نویس AI","✍️","مقاله سئو‌شده با ساختار کامل"],["caption","کپشن‌ساز اینستاگرام AI","📸","کپشن و هشتگ آماده"],["ad","تولید متن تبلیغاتی AI","📣","متن‌های فروش اثرگذار"],["product","توضیحات محصول AI","🛍️","توضیح حرفه‌ای برای فروشگاه"],["reels","سناریونویس ریلز AI","🎬","سناریوی صحنه‌به‌صحنه"],["summary","خلاصه‌کننده متن AI","📝","خلاصه و نکات کلیدی"],["rewrite","بازنویسی و اصلاح متن AI","🔁","ویرایش نگارشی و بازنویسی"],["tone","تبدیل متن رسمی/دوستانه AI","🎭","تغییر لحن متن"],["resume_ai","رزومه‌ساز هوشمند AI","📄","متن رزومه حرفه‌ای"],["ideas","تولید عنوان و ایده محتوا AI","💡","۱۰ ایده محتوایی"],["translate","مترجم هوشمند AI","🌐","ترجمه فارسی و انگلیسی"],["email","نامه و ایمیل‌نویس AI","✉️","ایمیل و نامه کامل"],["hashtag","تولید هشتگ AI","#️⃣","۲۰ هشتگ دسته‌بندی‌شده"],["slogan","شعار و نام برند AI","🏷️","۱۰ ایده شعار یا نام"],["bio","بیو اینستاگرام AI","👤","۳ بیوگرافی جذاب"],["prompt","پرامپت‌ساز AI","🪄","پرامپت حرفه‌ای"]].map(([id,n,i,d])=>({id,c:"هوش مصنوعی",i,n,d,ai:1,f:aiFields[id]})),
 {id:"qr",c:"ساخت",i:"🔳",n:"QR Code ساز",d:"ساخت و دانلود QR از متن یا لینک",f:[S("t","متن یا لینک","https://"),N("s","اندازه (px)",256)],
  run:(v,o)=>{if(!v.t)throw"متن را وارد کنید";const w=document.createElement("div");w.className="kv";w.style.cssText="grid-column:1/-1;text-align:center";const q=document.createElement("div");q.style.cssText="display:inline-block;background:#fff;padding:14px;border-radius:12px";w.append(q);new QRCode(q,{text:v.t,width:Math.min(nz(v.s)||256,512),height:Math.min(nz(v.s)||256,512)});const b=document.createElement("button");b.className="btn pri";b.textContent="دانلود PNG";b.style.marginTop="14px";b.onclick=()=>{const c=q.querySelector("canvas");const a=document.createElement("a");a.href=c.toDataURL();a.download="sr5-qr.png";a.click()};w.append(document.createElement("br"),b);return w}},
 {id:"inv",c:"ساخت",i:"🧾",n:"فاکتورساز",d:"فاکتور قابل چاپ و ذخیره PDF",f:[S("se","فروشنده"),S("by","خریدار"),S("no","شماره فاکتور","۱۰۰۱"),A("it","اقلام (هر خط: نام | تعداد | قیمت واحد)","خدمات طراحی | 2 | 5000000\nهاستینگ | 1 | 2000000"),N("tx","مالیات (٪)",10)],pr:1,
@@ -111,21 +117,21 @@ function scrolly(){const sc=$("#sc"),v=$("#sv");if(!sc)return;let target=0,cur=0
   $("#pb").style.transform=`scaleX(${cur})`;
   for(const l of ly){const a=+l.dataset.a,b=+l.dataset.b,k=(cur-a)/(b-a);let o=1;if(!l.dataset.f)o=Math.min(o,k/.22);if(!l.dataset.l)o=Math.min(o,(1-k)/.22);o=Math.max(0,Math.min(1,o));l.style.opacity=o;l.style.transform=`translate3d(0,${(1-o)*(k<.5?36:-36)}px,0) scale(${.96+.04*o})`;l.style.pointerEvents=o>.6?"auto":"none"}
   requestAnimationFrame(loop)})()}
-function home(){document.title="SR5 Tools | ۳۰ ابزار آنلاین فارسی";
+function home(){document.title="SR5 Tools | ۳۶ ابزار هوشمند آنلاین فارسی";
  const cc=c=>T.filter(t=>t.c==c).length;
  $("#view").innerHTML=`<section id="sc" class="sc"><div class="stage"><canvas id="sv" width="1280" height="720"></canvas><div class="shade"></div>
  <div class="ly" data-a="0" data-b=".26" data-f="1"><div class="orb"><img src="logo.png" alt="SR5 Tools"></div><h1>SR5 <span>Tools</span></h1><p>پلتفرم ابزارهای هوشمند فارسی</p><div class="hint">برای شروع پایین بکش<b>↓</b></div></div>
- <div class="ly" data-a=".26" data-b=".52"><span class="pill">۱ / ۳</span><h2>۳۰ ابزار واقعی</h2><p>ماشین‌حساب مالی و سلامت، فاکتور، رزومه PDF، QR و کارت ویزیت؛ همه سریع و داخل مرورگر.</p></div>
+ <div class="ly" data-a=".26" data-b=".52"><span class="pill">۱ / ۳</span><h2>۳۶ ابزار واقعی</h2><p>ماشین‌حساب مالی و سلامت، فاکتور، رزومه PDF، QR و کارت ویزیت؛ همه سریع و داخل مرورگر.</p></div>
  <div class="ly" data-a=".52" data-b=".78"><span class="pill">۲ / ۳</span><h2>هوش مصنوعی فارسی</h2><p>مقاله، کپشن اینستاگرام، سناریوی ریلز و رزومه؛ با پشتیبان‌گیری خودکار بین چند موتور AI.</p></div>
  <div class="ly" data-a=".78" data-b="1" data-l="1"><span class="pill">۳ / ۳</span><h2>۳ اعتبار رایگان</h2><p>با ورود Google شروع کن. ابزارهای غیر AI همیشه رایگانند.</p><div class="cta"><button class="btn pri lg" id="c1">ورود و شروع</button><button class="btn lg" id="c2">مشاهده ابزارها ↓</button></div></div>
  <div class="pbar"><i id="pb"></i></div></div></section>
- <section class="stats"><div class="st sr"><b data-n="30">۰</b><small>ابزار واقعی</small></div><div class="st sr" style="--d:1"><b data-n="10">۰</b><small>ابزار هوش مصنوعی</small></div><div class="st sr" style="--d:2"><b data-n="8">۰</b><small>دسته‌بندی</small></div><div class="st sr" style="--d:3"><b data-n="3">۰</b><small>اعتبار رایگان</small></div></section>
+ <section class="stats"><div class="st sr"><b data-n="36">۰</b><small>ابزار واقعی</small></div><div class="st sr" style="--d:1"><b data-n="16">۰</b><small>ابزار هوش مصنوعی</small></div><div class="st sr" style="--d:2"><b data-n="8">۰</b><small>دسته‌بندی</small></div><div class="st sr" style="--d:3"><b data-n="3">۰</b><small>اعتبار رایگان</small></div></section>
  <div class="band sr" style="margin:50px 0 0"><h2>💬 چت‌بات هوشمند</h2><p>با هوش مصنوعی فارسی گفتگو کن؛ ۵ پیام رایگان برای هر کاربر.</p><a class="btn pri lg" href="#/chat">شروع گفتگو</a></div>
  <h2 class="h2 sr" id="catsec">دسته‌بندی ابزارها</h2><p class="sub sr">یک دسته را انتخاب کن تا ابزارهایش را ببینی</p>
  <div class="cgrid">${Object.entries(CD).map(([c,[i,d]],k)=>`<div class="cc sr" style="--d:${k%4}" data-cc="${c}"><span class="ci">${i}</span><h3>${c}</h3><p>${d}</p><small>${fa(cc(c),0)} ابزار ←</small></div>`).join("")}</div>
- <h2 class="h2 sr" id="tools">همه ابزارها</h2><p class="sub sr">دنبال چی می‌گردی؟</p>
+ <h2 class="h2 sr" id="tools">همه ابزارهای هوشمند</h2><p class="sub sr">دنبال چی می‌گردی؟</p>
  <input class="srch sr" id="q" placeholder="جستجوی ابزار…" value="${esc(q)}"><div class="cats" id="cats"></div><div class="grid" id="grid"></div>
- <h2 class="h2 sr">چطور کار می‌کند؟</h2><div class="steps"><div class="sp sr"><em>۱</em><h3>ورود با Google</h3><p>با یک کلیک وارد شو و ۳ اعتبار رایگان دریافت کن.</p></div><div class="sp sr" style="--d:1"><em>۲</em><h3>انتخاب ابزار</h3><p>از بین ۳۰ ابزار محاسباتی، ساخت و هوش مصنوعی انتخاب کن.</p></div><div class="sp sr" style="--d:2"><em>۳</em><h3>نتیجه آماده</h3><p>خروجی را کپی کن، چاپ کن یا به‌صورت PDF ذخیره کن.</p></div></div>
+ <h2 class="h2 sr">چطور کار می‌کند؟</h2><div class="steps"><div class="sp sr"><em>۱</em><h3>ورود با Google</h3><p>با یک کلیک وارد شو و ۳ اعتبار رایگان دریافت کن.</p></div><div class="sp sr" style="--d:1"><em>۲</em><h3>انتخاب ابزار</h3><p>از بین ۳۶ ابزار محاسباتی، ساخت و هوش مصنوعی انتخاب کن.</p></div><div class="sp sr" style="--d:2"><em>۳</em><h3>نتیجه آماده</h3><p>خروجی را کپی کن، چاپ کن یا به‌صورت PDF ذخیره کن.</p></div></div>
  ${plansHTML()}<div class="band sr"><h2>آماده‌ای شروع کنی؟</h2><p>ابزارهای غیر AI همیشه رایگان و بدون ورود قابل استفاده‌اند.</p><button class="btn pri lg" id="c3">ورود و دریافت ۳ اعتبار</button></div>`;
  $("#q").oninput=e=>{q=e.target.value;renderGrid()};
  const to=id=>document.getElementById(id).scrollIntoView({behavior:"smooth"});
@@ -161,8 +167,33 @@ async function dash(){if(!user){location.hash="#/";return login()}
  $("#lo3").onclick=logout}
 /* ====== admin ====== */
 let atab="users";
-async function resizeImg(f,max=720){const b=await createImageBitmap(f),k=Math.min(1,max/b.width),c=document.createElement("canvas");c.width=Math.round(b.width*k);c.height=Math.round(b.height*k);c.getContext("2d").drawImage(b,0,0,c.width,c.height);return new Promise(r=>c.toBlob(r,"image/jpeg",.82))}
-async function upImg(id,f){const blob=await resizeImg(f),path=`${id}-${Date.now()}.jpg`;const{error}=await sb.storage.from("tool-images").upload(path,blob,{contentType:"image/jpeg"});if(error)throw error;const{data}=sb.storage.from("tool-images").getPublicUrl(path);const r=await sb.from("tool_images").upsert({tool:id,url:data.publicUrl,updated_at:new Date().toISOString()});if(r.error)throw r.error;IMG[id]=data.publicUrl}
+/* ====== image crop / resize dialog ====== */
+async function loadImg(src){try{if(src instanceof Blob)return await createImageBitmap(src)}catch(_){}
+ return await new Promise((ok,no)=>{const i=new Image(),u=src instanceof Blob?URL.createObjectURL(src):src;i.onload=()=>ok(i);i.onerror=()=>no("این فرمت تصویر پشتیبانی نمی‌شود (JPG یا PNG بفرست)");i.src=u})}
+function cropDialog(file){return new Promise(async res=>{
+ let img;try{img=await loadImg(file)}catch(e){toast(String(e));return res(null)}
+ const iw=img.width||img.naturalWidth,ih=img.height||img.naturalHeight,W=1000,H=500,fit=Math.min(W/iw,H/ih),cover=Math.max(W/iw,H/ih),MAX=cover*4;
+ let s=cover,cx=W/2,cy=H/2;
+ const m=document.createElement("div");m.className="md";
+ m.innerHTML=`<div class="crop"><h3>تنظیم تصویر</h3><p style="color:var(--mu);font-size:13px;line-height:1.9">تصویر را بکش تا جابه‌جا شود. با اسلایدر (یا دو انگشت / چرخ ماوس) بزرگ و کوچک کن. کادر، نسبت ۲ به ۱ است؛ همان چیزی که روی کارت ابزار دیده می‌شود.</p><div class="cw"><canvas id="cc" width="${W}" height="${H}"></canvas></div><input type="range" id="cz" min="0" max="100" step="0.5"><div class="ub"><button class="btn" id="cfit">همه تصویر در کادر</button><button class="btn" id="cfill">پر کردن کادر</button></div><div class="ub"><button class="btn pri" id="cok">ثبت و آپلود</button><button class="btn" id="cno">انصراف</button></div></div>`;
+ document.body.append(m);const cv=m.querySelector("#cc"),ctx=cv.getContext("2d"),z=m.querySelector("#cz");
+ const clamp=()=>{const w=iw*s,h=ih*s;cx=w>=W?Math.min(w/2,Math.max(W-w/2,cx)):W/2;cy=h>=H?Math.min(h/2,Math.max(H-h/2,cy)):H/2};
+ const draw=()=>{clamp();ctx.fillStyle="#0a121d";ctx.fillRect(0,0,W,H);ctx.drawImage(img,cx-iw*s/2,cy-ih*s/2,iw*s,ih*s);z.value=MAX>fit?(s-fit)/(MAX-fit)*100:0};
+ const setS=n=>{s=Math.min(MAX,Math.max(fit,n));draw()};
+ z.oninput=()=>setS(fit+(MAX-fit)*z.value/100);
+ m.querySelector("#cfit").onclick=()=>{cx=W/2;cy=H/2;setS(fit)};m.querySelector("#cfill").onclick=()=>{cx=W/2;cy=H/2;setS(cover)};
+ const P=new Map();let pd=0;const k=()=>cv.width/cv.getBoundingClientRect().width;
+ cv.onpointerdown=e=>{cv.setPointerCapture(e.pointerId);P.set(e.pointerId,[e.clientX,e.clientY]);pd=0;cv.style.cursor="grabbing"};
+ cv.onpointermove=e=>{if(!P.has(e.pointerId))return;const o=P.get(e.pointerId);P.set(e.pointerId,[e.clientX,e.clientY]);
+  if(P.size==1){cx+=(e.clientX-o[0])*k();cy+=(e.clientY-o[1])*k();draw()}
+  else if(P.size==2){const[a,b]=[...P.values()],d=Math.hypot(a[0]-b[0],a[1]-b[1]);if(pd)setS(s*d/pd);pd=d}};
+ cv.onpointerup=cv.onpointercancel=e=>{P.delete(e.pointerId);pd=0;cv.style.cursor="grab"};
+ cv.onwheel=e=>{e.preventDefault();setS(s*(e.deltaY<0?1.08:.92))};
+ const done=v=>{m.remove();res(v)};
+ m.querySelector("#cno").onclick=()=>done(null);
+ m.querySelector("#cok").onclick=()=>cv.toBlob(b=>done(b),"image/jpeg",.86);
+ draw()})}
+async function upBlob(id,blob){const path=`${id}-${Date.now()}.jpg`;const{error}=await sb.storage.from("tool-images").upload(path,blob,{contentType:"image/jpeg"});if(error)throw error;const{data}=sb.storage.from("tool-images").getPublicUrl(path);const r=await sb.from("tool_images").upsert({tool:id,url:data.publicUrl,updated_at:new Date().toISOString()});if(r.error)throw r.error;IMG[id]=data.publicUrl}
 async function admin(){if(profile?.role!="admin"){location.hash="#/";return}
  const tabs=[["users","👥 کاربران"],["images","🖼️ تصاویر ابزارها"],["settings","⚙️ تنظیمات"],["usage","📊 استفاده"]];
  $("#view").innerHTML=`<div class="panel"><h2>🛡️ پنل ادمین</h2><div class="cats tabs">${tabs.map(([k,l])=>`<button class="btn ${k==atab?"on":""}" data-t="${k}">${l}</button>`).join("")}</div><div id="at">⏳</div></div>`;
@@ -174,8 +205,10 @@ async function aUsers(){const{data:us,error}=await sb.from("profiles").select("*
  document.querySelectorAll("[data-sv]").forEach(b=>b.onclick=()=>{const id=b.dataset.sv;upd(id,{credits:parseInt($(`[data-cr="${id}"]`).value)||0,role:$(`[data-ro="${id}"]`).value},"ذخیره شد")});
  document.querySelectorAll("[data-p30]").forEach(b=>b.onclick=()=>{const id=b.dataset.p30,u=us.find(x=>x.id==id),base=isP(u)?new Date(u.pro_until).getTime():Date.now();upd(id,{pro_until:new Date(base+30*864e5).toISOString(),credits_day:null},"اشتراک ۳۰ روزه فعال شد")});
  document.querySelectorAll("[data-pc]").forEach(b=>b.onclick=()=>upd(b.dataset.pc,{pro_until:null,credits_day:null},"اشتراک لغو شد"))}
-async function aImages(){$("#at").innerHTML=`<p class="sub" style="text-align:right">برای هر ابزار یک تصویر شاخص آپلود کن؛ خودکار کوچک و بهینه می‌شود.</p><div class="igrid">${T.map(t=>`<div class="ic2"><div class="ph">${IMG[t.id]?`<img src="${IMG[t.id]}" alt="">`:`<span>${t.i}</span>`}</div><small>${t.n}</small><div class="ub"><label class="btn">آپلود<input type="file" accept="image/*" hidden data-up="${t.id}"></label>${IMG[t.id]?`<button class="btn" data-del="${t.id}">حذف</button>`:""}</div></div>`).join("")}</div>`;
- document.querySelectorAll("[data-up]").forEach(i=>i.onchange=async()=>{const f=i.files[0];if(!f)return;toast("در حال آپلود…");try{await upImg(i.dataset.up,f);toast("آپلود شد ✅");aImages()}catch(e){toast("خطا: "+(e.message||e))}});
+async function aImages(){$("#at").innerHTML=`<p class="sub" style="text-align:right">برای هر ابزار یک تصویر شاخص آپلود کن؛ خودکار کوچک و بهینه می‌شود.</p><div class="igrid">${T.map(t=>`<div class="ic2"><div class="ph">${IMG[t.id]?`<img src="${IMG[t.id]}" alt="">`:`<span>${t.i}</span>`}</div><small>${t.n}</small><div class="ub"><label class="btn">آپلود<input type="file" accept="image/*" hidden data-up="${t.id}"></label>${IMG[t.id]?`<button class="btn" data-ed="${t.id}">ویرایش</button><button class="btn" data-del="${t.id}">حذف</button>`:""}</div></div>`).join("")}</div>`;
+ const sendImg=async(id,src)=>{try{const blob=await cropDialog(src);if(!blob)return;toast("در حال آپلود…");await upBlob(id,blob);toast("آپلود شد ✅");aImages()}catch(e){toast("خطا: "+(e.message||e))}};
+ document.querySelectorAll("[data-up]").forEach(i=>i.onchange=()=>{const f=i.files[0];i.value="";if(f)sendImg(i.dataset.up,f)});
+ document.querySelectorAll("[data-ed]").forEach(b=>b.onclick=async()=>{try{const r=await fetch(IMG[b.dataset.ed]);sendImg(b.dataset.ed,await r.blob())}catch(e){toast("باز کردن تصویر ممکن نشد؛ یک تصویر جدید آپلود کن")}});
  document.querySelectorAll("[data-del]").forEach(b=>b.onclick=async()=>{const r=await sb.from("tool_images").delete().eq("tool",b.dataset.del);if(r.error)return toast("خطا: "+r.error.message);delete IMG[b.dataset.del];aImages()})}
 async function aSettings(){const SF=[["free_credits","اعتبار AI روزانه (رایگان)"],["free_chat","پیام چت روزانه (رایگان)"],["pro_credits","اعتبار AI روزانه (ویژه)"],["pro_chat","پیام چت روزانه (ویژه)"],["price_toman","قیمت اشتراک یک‌ماهه (تومان)"]];
  $("#at").innerHTML=`<div class="f">${SF.map(([k,l])=>`<label>${l}<input type="number" min="0" id="s_${k}" value="${esc(SET[k]??"")}"></label>`).join("")}<label class="w">کد نماد اعتماد (اینماد) — بعد از دریافت اینجا بچسبان تا در فوتر نمایش داده شود<textarea id="s_enamad_html" dir="ltr">${esc(SET.enamad_html||"")}</textarea></label></div><button class="btn pri" id="ssv" style="margin-top:14px">ذخیره تنظیمات</button>`;
@@ -199,7 +232,7 @@ function chat(){document.title="چت‌بات هوشمند | SR5 Tools";
  $("#cs").onclick=send;$("#ci").onkeydown=e=>{if(e.key=="Enter"&&!e.shiftKey&&!matchMedia("(pointer:coarse)").matches){e.preventDefault();send()}};draw(false)}
 /* ====== touch / hover effect ====== */
 document.addEventListener("pointerdown",e=>{const c=e.target.closest(".tc,.cc,.sp,.st,.btn,.plan,.kv");if(!c)return;const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;c.style.setProperty("--mx",x+"px");c.style.setProperty("--my",y+"px");const s=document.createElement("span");s.className="rp";s.style.left=x+"px";s.style.top=y+"px";c.append(s);setTimeout(()=>s.remove(),750);c.classList.add("tch");setTimeout(()=>c.classList.remove("tch"),550)},{passive:true});
-function route(){const h=location.hash||"#/";scrollTo(0,0);nav();if(h.startsWith("#/t/"))tool(h.slice(4));else if(h=="#/dash")dash();else if(h=="#/admin")admin();else if(h=="#/chat")chat();else if(h=="#/about")about();else if(h=="#/pricing")pricing();else home()}
+function route(){const h=location.hash||"#/";scrollTo(0,0);nav();{const s=$("#seo");if(s){const t=window.SR5_TOOL;s.style.display=(t?h=="#/t/"+t:(h=="#/"||h==""))?"":"none"}}if(h.startsWith("#/t/"))tool(h.slice(4));else if(h=="#/dash")dash();else if(h=="#/admin")admin();else if(h=="#/chat")chat();else if(h=="#/about")about();else if(h=="#/pricing")pricing();else home()}
 
 /* ====== scroll effects ====== */
 const ease=x=>x<0?0:x>1?1:x*x*(3-2*x);
@@ -211,7 +244,7 @@ const reveal=()=>observe();
 const needAuth=h=>/^#\/(dash|admin|chat)$/.test(h||"");
 let loaded=false,readyP=Promise.resolve();
 addEventListener("hashchange",async()=>{if(needAuth(location.hash)&&!loaded){$("#view").innerHTML='<div class="panel">⏳ در حال بارگذاری…</div>';await readyP}route()});
-(async()=>{nav();
+(async()=>{if(window.SR5_TOOL&&!location.hash)history.replaceState(null,"","#/t/"+window.SR5_TOOL);nav();
  readyP=Promise.all([loadProfile(),loadMeta()]).then(()=>{loaded=true});
  if(needAuth(location.hash))$("#view").innerHTML='<div class="panel">⏳ در حال بارگذاری…</div>';else route();
  await readyP;
