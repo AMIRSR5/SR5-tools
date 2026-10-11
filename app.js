@@ -124,7 +124,7 @@ function scrolly(){const sc=$("#sc"),v=$("#sv");if(!sc)return;let target=0,cur=0
   $("#pb").style.transform=`scaleX(${cur})`;
   for(const l of ly){const a=+l.dataset.a,b=+l.dataset.b,k=(cur-a)/(b-a);let o=1;if(!l.dataset.f)o=Math.min(o,k/.22);if(!l.dataset.l)o=Math.min(o,(1-k)/.22);o=Math.max(0,Math.min(1,o));l.style.opacity=o;l.style.transform=`translate3d(0,${(1-o)*(k<.5?36:-36)}px,0) scale(${.96+.04*o})`;l.style.pointerEvents=o>.6?"auto":"none"}
   requestAnimationFrame(loop)})()}
-function home(){document.title="SR5 Tools | ۳۶ ابزار هوشمند آنلاین فارسی";
+function home(){document.title="ابزار هوشمند SR5 | SR5 Tools؛ ۳۶ ابزار هوشمند آنلاین فارسی";
  const cc=c=>T.filter(t=>t.c==c).length;
  $("#view").innerHTML=`<section id="sc" class="sc"><div class="stage"><canvas id="sv" width="1280" height="720"></canvas><div class="shade"></div>
  <div class="ly" data-a="0" data-b=".26" data-f="1"><div class="orb"><img src="logo.png" alt="SR5 Tools"></div><h1>SR5 <span>Tools</span></h1><p>پلتفرم ابزارهای هوشمند فارسی</p><div class="hint">برای شروع پایین بکش<b>↓</b></div></div>
@@ -149,7 +149,7 @@ function home(){document.title="SR5 Tools | ۳۶ ابزار هوشمند آنل�
 function field(f){const id="f_"+f.k;let el;if(f.t=="select")el=`<select id="${id}">${f.o.map(o=>Array.isArray(o)?`<option value="${o[0]}">${o[1]}</option>`:`<option>${o}</option>`).join("")}</select>`;
  else if(f.t=="textarea")el=`<textarea id="${id}">${esc(f.d??"")}</textarea>`;else el=`<input id="${id}" type="${f.t=="date"?"date":"text"}" inputmode="${f.t=="number"?"decimal":"text"}" value="${esc(f.d??"")}" ${f.k=="from"||f.k=="to"?'list="ul"':""}>`;
  return `<label class="${f.w?"w":""}">${f.l}${el}</label>`}
-function tool(id){const t=T.find(x=>x.id==id);if(!t)return location.hash="#/";document.title=t.n+" | SR5 Tools";
+function tool(id){const t=T.find(x=>x.id==id);if(!t)return location.hash="#/";document.title=t.n+" | ابزار هوشمند SR5";
  $("#view").innerHTML=`<div class="panel"><a href="#/">← همه ابزارها</a>${IMG[t.id]?`<img class="banner" src="${IMG[t.id]}" alt="">`:""}<h2 style="margin:10px 0 4px">${t.i} ${t.n}</h2><p style="color:var(--mu);margin-bottom:18px">${t.d}${t.ai?" — هر اجرای موفق ۱ اعتبار مصرف می‌کند.":""}</p><div class="f">${t.f.map(field).join("")}${t.unit?`<datalist id="ul">${Object.keys(UNITS[Object.keys(UNITS)[0]]).map(u=>`<option>${u}</option>`).join("")}</datalist>`:""}</div><div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" id="go">${t.ai?"تولید با هوش مصنوعی":"محاسبه"}</button>${t.pr?'<button class="btn" id="pr">چاپ / ذخیره PDF</button>':""}</div><div class="out" id="out"></div></div>`;
  const vals=()=>Object.fromEntries(t.f.map(f=>[f.k,$("#f_"+f.k).value]));const out=$("#out");
  if(t.unit){const c=$("#f_c");c.onchange=()=>{$("#ul").innerHTML=Object.keys(UNITS[c.value]).map(u=>`<option>${u}</option>`).join("");const k=Object.keys(UNITS[c.value]);$("#f_from").value=k[0];$("#f_to").value=k[1]}}
