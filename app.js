@@ -124,10 +124,10 @@ function scrolly(){const sc=$("#sc"),v=$("#sv");if(!sc)return;let target=0,cur=0
   $("#pb").style.transform=`scaleX(${cur})`;
   for(const l of ly){const a=+l.dataset.a,b=+l.dataset.b,k=(cur-a)/(b-a);let o=1;if(!l.dataset.f)o=Math.min(o,k/.22);if(!l.dataset.l)o=Math.min(o,(1-k)/.22);o=Math.max(0,Math.min(1,o));l.style.opacity=o;l.style.transform=`translate3d(0,${(1-o)*(k<.5?36:-36)}px,0) scale(${.96+.04*o})`;l.style.pointerEvents=o>.6?"auto":"none"}
   requestAnimationFrame(loop)})()}
-function home(){document.title="ابزار هوشمند SR5 و ۳۶ ابزار آنلاین فارسی | SR5 Tools";
+function home(){document.title="ابزار هوشمند SR5 | SR5 Tools؛ ۳۶ ابزار هوشمند آنلاین فارسی";
  const cc=c=>T.filter(t=>t.c==c).length;
  $("#view").innerHTML=`<section id="sc" class="sc"><div class="stage"><canvas id="sv" width="1280" height="720"></canvas><div class="shade"></div>
- <div class="ly" data-a="0" data-b=".26" data-f="1"><div class="orb"><img src="logo.png" alt="SR5 Tools"></div><h1>SR5 <span>Tools</span></h1><p>ابزار هوشمند SR5 پلتفرمی برای ابزارهای آنلاین فارسی</p><div class="hint">برای شروع پایین بکش<b>↓</b></div></div>
+ <div class="ly" data-a="0" data-b=".26" data-f="1"><div class="orb"><img src="logo.png" alt="SR5 Tools"></div><h1>SR5 <span>Tools</span></h1><p>پلتفرم ابزارهای هوشمند فارسی</p><div class="hint">برای شروع پایین بکش<b>↓</b></div></div>
  <div class="ly" data-a=".26" data-b=".52"><span class="pill">۱ / ۳</span><h2>۳۶ ابزار واقعی</h2><p>ماشین‌حساب مالی و سلامت، فاکتور، رزومه PDF، QR و کارت ویزیت؛ همه سریع و داخل مرورگر.</p></div>
  <div class="ly" data-a=".52" data-b=".78"><span class="pill">۲ / ۳</span><h2>هوش مصنوعی فارسی</h2><p>مقاله، کپشن اینستاگرام، سناریوی ریلز و رزومه؛ با پشتیبان‌گیری خودکار بین چند موتور AI.</p></div>
  <div class="ly" data-a=".78" data-b="1" data-l="1"><span class="pill">۳ / ۳</span><h2>۳ اعتبار رایگان</h2><p>با ورود Google شروع کن. ابزارهای غیر AI همیشه رایگانند.</p><div class="cta"><button class="btn pri lg" id="c1">ورود و شروع</button><button class="btn lg" id="c2">مشاهده ابزارها ↓</button></div></div>
